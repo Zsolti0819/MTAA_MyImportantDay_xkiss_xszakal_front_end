@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Account">
+
+        <EditTextPreference
+            app:key="username"
+            app:title="Change username" />
+
+        <EditTextPreference
+            app:key="e-mail"
+            app:title="Change e-mail" />
+
+
+        <EditTextPreference
+            app:key="password"
+            app:title="Change password" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Notifications">
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
