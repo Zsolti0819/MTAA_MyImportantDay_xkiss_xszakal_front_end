@@ -5,5 +5,18 @@
     <string name="title_new_event">New Event</string>
     <string name="title_settings">Settings</string>
     <string name="title_activity_settings">activity_settings</string>
+    <string name="your_current_password">Your current password</string>
+    <string name="your_new_password">Your new password</string>
+    <string name="change_your_password">Change your password</string>
+    <string name="change_password">Change password</string>
+    <string name="change_username">Change Username</string>
+    <string name="change_e_mail_address">Change E-mail address</string>
+    <string name="there_is_a_lock">There is a lock</string>
+    <string name="change_your_credentials">Change your credentials</string>
+    <string name="change_your_username">Change your username</string>
+    <string name="there_is_an_account_box">There is an account box</string>
+    <string name="type_in_your_new_username">Type in your new username</string>
+    <string name="change_your_e_mail_address">Change your E-mail address</string>
+    <string name="type_in_your_new_e_mail_address">Type in your new E-mail address</string>
 
 </resources>

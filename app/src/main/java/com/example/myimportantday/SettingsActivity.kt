@@ -1,28 +1,35 @@
 package com.example.myimportantday
 
-import android.os.Bundle
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceFragmentCompat
+import android.os.Bundle
+import android.widget.Button
 
 class SettingsActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings, SettingsFragment())
-                .commit()
-        }
+        setContentView(R.layout.activity_settings)
+
         val actionBar = supportActionBar
         actionBar!!.title = "Settings"
         actionBar.setDisplayHomeAsUpEnabled(true)
-    }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        val changeUsernameButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.changeUsernameButton)
+        changeUsernameButton.setOnClickListener {
+            val intent = Intent(this, UsernameChangeActivity::class.java)
+            startActivity(intent)
+        }
+
+        val changeEmailButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.changeEmailButton)
+        changeEmailButton.setOnClickListener {
+            val intent = Intent(this, EmailChangeActivity::class.java)
+            startActivity(intent)
+        }
+
+        val changePasswordButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.changePasswordButton)
+        changePasswordButton.setOnClickListener {
+            val intent = Intent(this, PasswordChangeActivity::class.java)
+            startActivity(intent)
         }
     }
 }

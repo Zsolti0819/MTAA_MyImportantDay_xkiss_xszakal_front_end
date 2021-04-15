@@ -23,9 +23,4 @@
         android:label="@string/title_new_event"
         tools:layout="@layout/fragment_new_event" />
 
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="com.example.myimportantday.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
 </navigation>
