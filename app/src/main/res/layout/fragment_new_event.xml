@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:paddingBottom="80dp">
 
-    <ImageView
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
@@ -14,7 +20,7 @@
         app:tint="@color/holo_blue_dark"
         android:contentDescription="@string/there_is_an_event_calendar" />
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -25,7 +31,7 @@
         android:textColor="@color/holo_blue_dark"
         android:textSize="20sp" />
 
-    <EditText
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
@@ -38,7 +44,7 @@
         android:autofillHints=""
         android:inputType="text" />
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -49,7 +55,7 @@
         android:textColor="@color/holo_blue_dark"
         android:textSize="20sp" />
 
-    <EditText
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
@@ -62,7 +68,7 @@
         android:autofillHints=""
         android:inputType="datetime" />
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -73,7 +79,7 @@
         android:textColor="@color/holo_blue_dark"
         android:textSize="20sp" />
 
-    <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location"
         android:textAllCaps="false"
         android:layout_width="match_parent"
@@ -88,7 +94,7 @@
         android:text="@string/select_where_the_event_takes_place"
         tools:targetApi="lollipop" />
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -99,7 +105,7 @@
         android:textColor="@color/holo_blue_dark"
         android:textSize="20sp" />
 
-    <EditText
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
@@ -112,7 +118,7 @@
         android:autofillHints=""
         android:inputType="number" />
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -123,31 +129,31 @@
         android:textColor="@color/holo_blue_dark"
         android:textSize="20sp" />
 
-    <EditText
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/ic_baseline_info_24"
-        android:drawableStart="@drawable/ic_baseline_info_24"
+        android:drawableLeft="@drawable/ic_baseline_priority_high_24"
+        android:drawableStart="@drawable/ic_baseline_priority_high_24"
         android:drawablePadding="16dp"
-        android:hint="@string/provide_additional_information"
+        android:hint="@string/how_important_is_this_event"
         android:autofillHints=""
-        android:inputType="number" />
+        android:inputType="text" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/createEventButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/create_event"
-        tools:targetApi="lollipop" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/createEventButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/create_event"
+            tools:targetApi="lollipop" />
+    </LinearLayout>
 
-
-</LinearLayout>
+</ScrollView>
