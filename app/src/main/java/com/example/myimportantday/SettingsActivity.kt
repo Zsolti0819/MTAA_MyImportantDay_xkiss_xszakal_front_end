@@ -31,5 +31,11 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent(this, PasswordChangeActivity::class.java)
             startActivity(intent)
         }
+
+        val logOutButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.logoutButton)
+        logOutButton.setOnClickListener {
+            val intent = Intent(this, LogoutActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

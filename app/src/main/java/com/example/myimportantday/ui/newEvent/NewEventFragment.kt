@@ -22,10 +22,6 @@ class NewEventFragment : Fragment() {
         newEventViewModel =
                 ViewModelProvider(this).get(NewEventViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_new_event, container, false)
-        val textView: TextView = root.findViewById(R.id.text_new_event)
-        newEventViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         return root
     }
 }

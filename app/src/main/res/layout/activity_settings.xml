@@ -30,7 +30,7 @@
         android:id="@+id/changeUsernameButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
         android:id="@+id/changeEmailButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:textStyle="bold"
@@ -56,13 +56,26 @@
         android:id="@+id/changePasswordButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="@color/holo_blue_dark"
         android:text="@string/change_password"
+        tools:targetApi="lollipop" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/light_grey"
+        android:text="@string/log_out"
         tools:targetApi="lollipop" />
 
 

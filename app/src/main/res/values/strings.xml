@@ -1,22 +1,69 @@
 <resources>
     <string name="app_name">My Important Day</string>
+    <string name="welcome_to_my_important_day_please_sign_in_or_register">Welcome to My Important Day! Please sign in or register!</string>
     <string name="title_home">Home</string>
     <string name="title_calendar">Calendar</string>
-    <string name="title_new_event">New Event</string>
+
+
     <string name="title_settings">Settings</string>
-    <string name="title_activity_settings">activity_settings</string>
-    <string name="your_current_password">Your current password</string>
-    <string name="your_new_password">Your new password</string>
-    <string name="change_your_password">Change your password</string>
-    <string name="change_password">Change password</string>
-    <string name="change_username">Change Username</string>
-    <string name="change_e_mail_address">Change E-mail address</string>
-    <string name="there_is_a_lock">There is a lock</string>
     <string name="change_your_credentials">Change your credentials</string>
     <string name="change_your_username">Change your username</string>
-    <string name="there_is_an_account_box">There is an account box</string>
     <string name="type_in_your_new_username">Type in your new username</string>
+    <string name="change_username">Change Username</string>
     <string name="change_your_e_mail_address">Change your E-mail address</string>
     <string name="type_in_your_new_e_mail_address">Type in your new E-mail address</string>
+    <string name="change_e_mail_address">Change E-mail address</string>
+    <string name="change_your_password">Change your password</string>
+    <string name="your_current_password">Your current password</string>
+    <string name="your_new_password">Your new password</string>
+    <string name="change_password">Change password</string>
+
+
+    <string name="log_out">Log out</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
+
+
+
+    <string name="there_is_an_event_calendar">There is an event calendar</string>
+    <string name="there_is_a_lock">There is a lock</string>
+    <string name="there_is_an_account_box">There is an account box</string>
+    <string name="there_is_a_calendar">There is a calendar</string>
+
+
+
+
+    <string name="title_new_event">New Event</string>
+    <string name="create_a_new_event">Create a new event</string>
+    <string name="subject">Subject</string>
+    <string name="describe_the_event_in_a_few_words">Describe the event in a few words</string>
+    <string name="date">Date</string>
+    <string name="specify_the_location_of_the_event">Specify the location of the event</string>
+    <string name="place">Place</string>
+    <string name="when_will_the_event_take_a_place">When will the event take place?</string>
+    <string name="select_where_the_event_takes_place">Select where the event takes place.</string>
+    <string name="priority">Priority</string>
+    <string name="how_important_is_this_event">How important is this event?</string>
+    <string name="advanced">Advanced</string>
+    <string name="provide_additional_information">Provide additional information</string>
+    <string name="create_event">Create event</string>
+
+
+    <string-array name="priority_levels">
+        <item>Normal</item>
+        <item>Important</item>
+        <item>Critical</item>
+    </string-array>
+
 
 </resources>

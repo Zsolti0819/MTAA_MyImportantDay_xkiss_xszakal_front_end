@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".PasswordChangeActivity"
+    tools:context=".ui.login.LoginActivity"
     android:orientation="vertical">
 
     <ImageView
@@ -13,21 +13,23 @@
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:src="@drawable/ic_baseline_lock_open_24"
+        android:src="@drawable/ic_baseline_calendar_today_24"
         app:tint="@color/holo_blue_dark"
-        android:contentDescription="@string/there_is_a_lock" />
+        android:contentDescription="@string/there_is_a_calendar" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:text="@string/change_your_password"
+        android:text="@string/welcome_to_my_important_day_please_sign_in_or_register"
+        android:textAlignment="center"
         android:textStyle="bold"
         android:textColor="@color/holo_blue_dark"
         android:textSize="25sp" />
 
     <EditText
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
@@ -35,24 +37,33 @@
         android:layout_marginTop="32dp"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
-        android:hint="@string/your_current_password"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:hint="@string/prompt_username"
+        android:inputType="text"
+        android:drawableStart="@drawable/ic_baseline_account_box_24"
+        android:selectAllOnFocus="true"
         android:autofillHints="" />
 
     <EditText
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
-        android:hint="@string/your_new_password"
+        android:hint="@string/prompt_password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
         android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:selectAllOnFocus="true"
         android:autofillHints="" />
 
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/lol"
+        android:id="@+id/login"
+        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -61,6 +72,28 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/change_password"
+        android:text="@string/action_sign_in"
         tools:targetApi="lollipop" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/holo_blue_dark"
+        android:text="@string/action_register"
+        tools:targetApi="lollipop" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone" />
 </LinearLayout>

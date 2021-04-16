@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".UsernameChangeActivity">
+    tools:context=".UsernameChangeActivity"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="120dp"
@@ -31,7 +31,7 @@
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
         android:hint="@string/type_in_your_new_username"
