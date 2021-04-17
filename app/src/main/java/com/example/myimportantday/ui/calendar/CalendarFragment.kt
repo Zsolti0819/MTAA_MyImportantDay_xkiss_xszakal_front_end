@@ -1,27 +1,27 @@
 package com.example.myimportantday.ui.calendar
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.CalendarView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myimportantday.R
 
 class CalendarFragment : Fragment() {
-
-    private lateinit var calendarViewModel: CalendarViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        calendarViewModel =
-                ViewModelProvider(this).get(CalendarViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_calendar, container, false)
+
+        val calendar = root.findViewById<CalendarView>(R.id.calendarView)
+        calendar.setOnDateChangeListener { myCalendar, year, month, dayOfMonth ->  Log.d("Selected date:", "$year, ${month+1}, $dayOfMonth")}
         return root
     }
 }

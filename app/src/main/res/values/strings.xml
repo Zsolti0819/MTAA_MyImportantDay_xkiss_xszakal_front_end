@@ -51,12 +51,14 @@
     <string name="specify_the_location_of_the_event">Specify the location of the event</string>
     <string name="place">Place</string>
     <string name="when_will_the_event_take_a_place">When will the event take place?</string>
-    <string name="where_the_event_takes_place">Where the event takes place?</string>
+    <string name="where_the_event_takes_place">Where will event take place?</string>
     <string name="priority">Priority</string>
     <string name="how_important_is_this_event">How important is this event?</string>
     <string name="advanced">Advanced</string>
     <string name="provide_additional_information">Provide additional information</string>
     <string name="create_event">Create event</string>
+    <string name="photo">Photo</string>
+    <string name="select_a_photo_from_your_galery">Select a photo from your galery</string>
 
 
     <string-array name="priority_levels">
