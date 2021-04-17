@@ -51,7 +51,7 @@
     <string name="specify_the_location_of_the_event">Specify the location of the event</string>
     <string name="place">Place</string>
     <string name="when_will_the_event_take_a_place">When will the event take place?</string>
-    <string name="select_where_the_event_takes_place">Select where the event takes place.</string>
+    <string name="where_the_event_takes_place">Where the event takes place?</string>
     <string name="priority">Priority</string>
     <string name="how_important_is_this_event">How important is this event?</string>
     <string name="advanced">Advanced</string>
