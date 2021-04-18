@@ -30,19 +30,10 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-
-
-
-
-
     <string name="there_is_an_event_calendar">There is an event calendar</string>
     <string name="there_is_a_lock">There is a lock</string>
     <string name="there_is_an_account_box">There is an account box</string>
     <string name="there_is_a_calendar">There is a calendar</string>
-
-
-
-
     <string name="title_new_event">New Event</string>
     <string name="create_a_new_event">Create a new event</string>
     <string name="subject">Subject</string>
@@ -55,10 +46,10 @@
     <string name="priority">Priority</string>
     <string name="how_important_is_this_event">How important is this event?</string>
     <string name="advanced">Advanced</string>
-    <string name="provide_additional_information">Provide additional information</string>
+    <string name="optional_additional_information">[Optional] Additional information</string>
     <string name="create_event">Create event</string>
     <string name="photo">Photo</string>
-    <string name="select_a_photo_from_your_galery">Select a photo from your galery</string>
+    <string name="optional_photo_from_your_galery">[Optional] Photo from your galery</string>
 
 
     <string-array name="priority_levels">

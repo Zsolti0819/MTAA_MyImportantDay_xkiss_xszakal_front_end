@@ -43,6 +43,7 @@
             android:drawablePadding="16dp"
             android:hint="@string/describe_the_event_in_a_few_words"
             android:autofillHints=""
+            android:background="@color/light_grey"
             android:inputType="text" />
 
         <TextView
@@ -67,6 +68,7 @@
             android:drawablePadding="16dp"
             android:hint="@string/when_will_the_event_take_a_place"
             android:autofillHints=""
+            android:background="@color/light_grey"
             android:inputType="datetime" />
 
         <TextView
@@ -91,6 +93,7 @@
             android:drawablePadding="16dp"
             android:hint="@string/where_the_event_takes_place"
             android:autofillHints=""
+            android:background="@color/light_grey"
             android:inputType="datetime" />
 
         <TextView
@@ -115,6 +118,7 @@
             android:drawablePadding="16dp"
             android:hint="@string/how_important_is_this_event"
             android:autofillHints=""
+            android:background="@color/light_grey"
             android:inputType="number" />
 
         <TextView
@@ -137,9 +141,10 @@
             android:drawableLeft="@drawable/ic_baseline_info_24"
             android:drawableStart="@drawable/ic_baseline_info_24"
             android:drawablePadding="16dp"
-            android:hint="@string/how_important_is_this_event"
+            android:hint="@string/optional_additional_information"
             android:autofillHints=""
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@color/light_grey" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -163,7 +168,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:backgroundTint="@color/grey"
-            android:text="@string/select_a_photo_from_your_galery"
+            android:text="@string/optional_photo_from_your_galery"
             tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatButton

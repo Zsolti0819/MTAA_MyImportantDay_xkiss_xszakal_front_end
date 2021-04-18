@@ -7,19 +7,27 @@
     android:layout_height="match_parent"
     android:paddingBottom="55dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.calendar.CalendarFragment">
+        tools:context=".ui.calendar.CalendarFragment"
+        android:orientation="vertical">
 
         <CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="NestedScrolling" />
+
+    </LinearLayout>
 </ScrollView>
