@@ -1,7 +1,7 @@
 package com.example.myimportantday.storage
 
 import android.content.Context
-import com.example.myimportantday.model.User
+import com.example.myimportantday.models.User
 
 
 class SharedPrefManager private constructor(private val mCtx: Context) {
@@ -12,28 +12,25 @@ class SharedPrefManager private constructor(private val mCtx: Context) {
             return sharedPreferences.getInt("id", -1) != -1
         }
 
-    val user: User
-        get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-            return User(
-                sharedPreferences.getInt("id", -1),
-                sharedPreferences.getString("username", null).toString()
-
-            )
-        }
+//    val user: User
+//        get() {
+//            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+//            return User(
+//                sharedPreferences.getString("token", null).toString()
+//            )
+//        }
 
 
-    fun saveUser(user: User) {
-
-        val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-
-        editor.putInt("id", user.id)
-        editor.putString("username", user.username)
-
-        editor.apply()
-
-    }
+//    fun saveUser(user: User) {
+//
+//        val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//
+//        editor.putString("id", user.token)
+//
+//        editor.apply()
+//
+//    }
 
     fun clear() {
         val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)

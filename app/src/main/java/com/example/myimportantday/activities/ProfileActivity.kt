@@ -10,8 +10,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myimportantday.R
-import com.example.myimportantday.storage.SharedPrefManager
+import com.example.myimportantday.api.APIclient
+import com.example.myimportantday.models.EventsResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +37,6 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.upper_menu_settings, menu)
         return true
@@ -48,14 +51,20 @@ class ProfileActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onStart() {
-//        super.onStart()
+//    private fun fetchPosts() {
 //
-//        if(!SharedPrefManager.getInstance(this).isLoggedIn){
-//            val intent = Intent(applicationContext, MainActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)
-//        }
+//        variable = APIclient
+//
+//        apiClient.getApiService(this).fetchPosts()
+//            .enqueue(object : Callback<EventsResponse> {
+//                override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
+//                    // Error fetching posts
+//                }
+//
+//                override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
+//                    // Handle function to display posts
+//                }
+//            })
 //    }
 
 }
