@@ -11,13 +11,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
+import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventsResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : AppCompatActivity() {
+    @ExperimentalMultiplatform
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -34,6 +37,21 @@ class ProfileActivity : AppCompatActivity() {
             R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        show.setOnClickListener{
+            var apiClient: APIclient = APIclient()
+            var sessionManager: SessionManager = SessionManager(this)
+
+            apiClient.getApiService().getAllEvents(token = "Token ${sessionManager.fetchAuthToken()}")
+                .enqueue(object : Callback<EventsResponse> {
+                    override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
+                        // Error fetching posts
+                    }
+
+                    override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
+                        // Handle function to display posts
+                    }
+                })
+        }
 
     }
 
@@ -51,21 +69,10 @@ class ProfileActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    private fun fetchPosts() {
-//
-//        variable = APIclient
-//
-//        apiClient.getApiService(this).fetchPosts()
-//            .enqueue(object : Callback<EventsResponse> {
-//                override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
-//                    // Error fetching posts
-//                }
-//
-//                override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
-//                    // Handle function to display posts
-//                }
-//            })
-//    }
+    private fun fetchPosts() {
+
+
+    }
 
 }
 

@@ -14,7 +14,7 @@ interface APIservice {
         @Field("password") password: String
     ):Call<LoginResponse>
 
-    @FormUrlEncoded
+    @ExperimentalMultiplatform
     @GET("events/all")
     fun getAllEvents(
         @Header("Authorization") token: String
