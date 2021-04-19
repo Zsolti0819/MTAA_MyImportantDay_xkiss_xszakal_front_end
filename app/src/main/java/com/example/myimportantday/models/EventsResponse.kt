@@ -2,6 +2,7 @@ package com.example.myimportantday.models
 
 import com.google.gson.annotations.SerializedName
 import java.sql.Date
+import java.sql.Timestamp
 
 data class EventsResponse (
 
@@ -12,7 +13,7 @@ data class EventsResponse (
     var subject: String,
 
     @SerializedName("date")
-    var date: Date,
+    var date: Timestamp,
 
     @SerializedName("place")
     var place: String,
@@ -27,6 +28,6 @@ data class EventsResponse (
     var pic: String,
 
     @SerializedName("user")
-    var user: String
+    var user: Int
 
 )

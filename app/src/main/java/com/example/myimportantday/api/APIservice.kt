@@ -15,7 +15,7 @@ interface APIservice {
     ):Call<LoginResponse>
 
     @ExperimentalMultiplatform
-    @GET("events/all")
+    @GET("events/all/")
     fun getAllEvents(
         @Header("Authorization") token: String
 

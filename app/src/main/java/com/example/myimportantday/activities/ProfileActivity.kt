@@ -2,6 +2,7 @@ package com.example.myimportantday.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class ProfileActivity : AppCompatActivity() {
     @ExperimentalMultiplatform
@@ -37,22 +39,41 @@ class ProfileActivity : AppCompatActivity() {
             R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        show.setOnClickListener{
-            var apiClient: APIclient = APIclient()
-            var sessionManager: SessionManager = SessionManager(this)
 
-            apiClient.getApiService().getAllEvents(token = "Token ${sessionManager.fetchAuthToken()}")
-                .enqueue(object : Callback<EventsResponse> {
-                    override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
-                        // Error fetching posts
-                    }
 
-                    override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
-                        // Handle function to display posts
-                    }
-                })
-        }
+        var apiClient: APIclient = APIclient()
+        var sessionManager: SessionManager = SessionManager(this)
 
+        apiClient.getApiService().getAllEvents("Token ${sessionManager.fetchAuthToken()}")
+            .enqueue(object : Callback<EventsResponse> {
+                override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
+                    Log.d("FAILURE", "${sessionManager.fetchAuthToken()}")
+                    Log.d("ERROR", textView.text.toString())
+                }
+
+                override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
+                    Log.d("RESPONSE", "${sessionManager.fetchAuthToken()}")
+                    Log.d("RESPONSE", textView.text.toString())
+                    textView.text = response.toString()
+                    textView.text.toString()
+                }
+            })
+
+        apiClient.getApiService().getAllEvents("Token ${sessionManager.fetchAuthToken()}")
+            .enqueue(object : Callback<EventsResponse> {
+                override fun onFailure(call: Call<EventsResponse>, t: Throwable) {
+                    Log.d("FAILURE", "${sessionManager.fetchAuthToken()}")
+                    Log.d("ERROR", textView2.text.toString())
+                    textView2.text.toString()
+                }
+
+                override fun onResponse(call: Call<EventsResponse>, response: Response<EventsResponse>) {
+                    Log.d("RESPONSE", "${sessionManager.fetchAuthToken()}")
+                    Log.d("RESPONSE", textView2.text.toString())
+                    textView2.text = response.toString()
+                    textView2.text.toString()
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,11 +88,6 @@ class ProfileActivity : AppCompatActivity() {
             R.id.navigation_settings -> startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun fetchPosts() {
-
-
     }
 
 }

@@ -15,8 +15,8 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var sessionManager: SessionManager
-    private lateinit var apiClient: APIclient
+    lateinit var sessionManager: SessionManager
+    lateinit var apiClient: APIclient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,18 +46,22 @@ class MainActivity : AppCompatActivity() {
             apiClient.getApiService().login(username, password)
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Log.d("ERROR", "Error logging in ... YOU FUCKED UP")
+                        Log.d("ERROR", "Error WTF")
                     }
 
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+
                         val loginResponse = response.body()
 
                         if (loginResponse != null) {
                             sessionManager.saveAuthToken(loginResponse.token)
                             val intent = Intent(applicationContext, ProfileActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            intent.putExtra("thisShit", sessionManager.fetchAuthToken())
                             startActivity(intent)
                         }
+                        else
+                            Log.d("ERROR", "Error logging in ... YOU FUCKED UP")
                     }
                 })
         }

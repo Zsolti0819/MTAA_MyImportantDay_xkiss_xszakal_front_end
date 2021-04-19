@@ -1,7 +1,8 @@
 package com.example.myimportantday.api
 
-import android.provider.SyncStateContract
+import android.content.Context
 import com.example.myimportantday.api.Constants.BASE_URL
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,6 +22,12 @@ class APIclient {
         }
 
         return apiService
+    }
+
+    private fun okhttpClient(context: Context): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(context))
+            .build()
     }
 
 }
