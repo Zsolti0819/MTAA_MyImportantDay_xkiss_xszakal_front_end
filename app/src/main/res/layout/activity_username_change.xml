@@ -36,7 +36,8 @@
         android:drawablePadding="16dp"
         android:hint="@string/type_in_your_new_username"
         android:drawableStart="@drawable/ic_baseline_account_box_24"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:inputType="text" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/lol"

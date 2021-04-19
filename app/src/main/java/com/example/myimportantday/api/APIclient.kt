@@ -11,7 +11,6 @@ class APIclient {
 
     fun getApiService(context: Context): APIservice {
 
-        // Initialize ApiService if not initialized yet
         if (!::apiService.isInitialized) {
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)

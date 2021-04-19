@@ -3,6 +3,7 @@ package com.example.myimportantday.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
@@ -16,7 +17,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
-    lateinit var apiClient: APIclient
+    private lateinit var apiClient: APIclient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         else
-                            Log.d("ERROR", "Error logging in ... YOU FUCKED UP")
+                            Toast.makeText(applicationContext,"Wrong username or password",Toast.LENGTH_LONG).show()
+
                     }
                 })
         }

@@ -13,15 +13,11 @@ import com.example.myimportantday.R
 
 class NewEventFragment : Fragment() {
 
-    private lateinit var newEventViewModel: NewEventViewModel
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        newEventViewModel =
-                ViewModelProvider(this).get(NewEventViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_new_event, container, false)
         return root
     }

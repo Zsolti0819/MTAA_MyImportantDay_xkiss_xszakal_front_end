@@ -1,6 +1,5 @@
 package com.example.myimportantday.api
 
-import com.example.myimportantday.models.EventListResponse
 import com.example.myimportantday.models.EventsResponse
 import com.example.myimportantday.models.LoginResponse
 import retrofit2.Call
