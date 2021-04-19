@@ -1,5 +1,6 @@
 package com.example.myimportantday.api
 
+import com.example.myimportantday.models.EventListResponse
 import com.example.myimportantday.models.EventsResponse
 import com.example.myimportantday.models.LoginResponse
 import retrofit2.Call
@@ -15,11 +16,8 @@ interface APIservice {
     ):Call<LoginResponse>
 
     @ExperimentalMultiplatform
-    @GET("events/all/")
-    fun getAllEvents(
-        @Header("Authorization") token: String
-
-    ):Call<EventsResponse>
+    @GET("events/26/")
+    fun getAllEvents():Call<EventsResponse>
 
 
 }

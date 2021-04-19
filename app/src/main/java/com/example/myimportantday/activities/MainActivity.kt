@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             apiClient = APIclient()
             sessionManager = SessionManager(this)
 
-            apiClient.getApiService().login(username, password)
+            apiClient.getApiService(this).login(username, password)
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Log.d("ERROR", "Error WTF")
@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
                             sessionManager.saveAuthToken(loginResponse.token)
                             val intent = Intent(applicationContext, ProfileActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            intent.putExtra("thisShit", sessionManager.fetchAuthToken())
                             startActivity(intent)
                         }
                         else
