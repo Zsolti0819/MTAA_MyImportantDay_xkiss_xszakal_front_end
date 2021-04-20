@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.sql.Date
 import java.sql.Timestamp
 
-data class EventsResponse (
+data class EventResponse (
 
     @SerializedName("id")
     var id: Int,

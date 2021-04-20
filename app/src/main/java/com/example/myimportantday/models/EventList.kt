@@ -2,8 +2,7 @@ package com.example.myimportantday.models
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse (
-
-    var token: String,
-    var user: User
-)
+data class EventList (
+    @SerializedName("events")
+    var events: List<EventResponse>
+    )
