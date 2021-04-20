@@ -1,12 +1,15 @@
 package com.example.myimportantday.ui.home
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
@@ -45,31 +48,91 @@ class HomeFragment : Fragment() {
                         Log.d("TEXT", response.toString())
 
                         val eventList = response.body()
-                        val event = arrayOfNulls<String>(eventList?.events!!.size)
 
-                        for (i: Int in eventList.events.indices) {
-                            event[i] = eventList.events[i].subject
-                        }
+                        val subjects = arrayOfNulls<String>(eventList?.events!!.size)
+                        for (i: Int in eventList.events.indices)
+                            subjects[i] = eventList.events[i].subject
+
+                        val dates = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            dates[i] = eventList.events[i].date.toString()
+
+                        val places = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            places[i] = eventList.events[i].place
+
+                        val priorities = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            priorities[i] = eventList.events[i].priority
+
+                        val advances = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            advances[i] = eventList.events[i].advanced
+
+                        val pics = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            pics[i] = eventList.events[i].pic
 
 
-                        val adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_dropdown_item_1line, event)
+                        val adapter = MyAdapter(context!!, subjects, dates, places, priorities, advances, pics)
 
                         val listView = root.findViewById<ListView>(R.id.listView)
                         listView.adapter = adapter
 
-
-
-                        Log.d("R.BODY", eventList.toString())
-
-//                        val listView = root.findViewById<ListView>(R.id.listView)
-//                        listView.adapter =
-//                            response.body()?.let { it1 -> MyCustomAdapter(it1, context!!) }
 
                     }
                 })
         }
 
         return root
+    }
+
+    class MyAdapter(private val context: Context, private val subjects: Array<String?>, private val dates: Array<String?>, private val places: Array<String?>, private val priorities: Array<String?>, private val advances: Array<String?>, private val pics: Array<String?>) : BaseAdapter() {
+        private lateinit var subject: TextView
+        private lateinit var date: TextView
+        private lateinit var place: TextView
+        private lateinit var priority: TextView
+        private lateinit var advanced: TextView
+        private lateinit var pic: TextView
+
+
+
+
+
+        override fun getCount(): Int {
+            return subjects.size
+        }
+        override fun getItem(position: Int): Any {
+            return position
+        }
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+        @SuppressLint("ViewHolder")
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+            val thisView = LayoutInflater.from(context).inflate(R.layout.row, parent, false)
+            subject = thisView.findViewById(R.id.subject)
+            date = thisView.findViewById(R.id.date)
+            place = thisView.findViewById(R.id.place)
+            priority = thisView.findViewById(R.id.priority)
+            advanced = thisView.findViewById(R.id.advanced)
+            pic = thisView.findViewById(R.id.pic)
+
+            subject.text = subjects[position]
+            println(subject.text)
+            date.text = dates[position]
+            println(date.text)
+            place.text = places[position]
+            println(place.text)
+            priority.text = priorities[position]
+            println(priority.text)
+            advanced.text = advances[position]
+            println(advanced.text)
+            pic.text = pics[position]
+            println(pic.text)
+
+            return thisView
+        }
     }
 
 
