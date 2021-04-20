@@ -19,9 +19,5 @@ interface APIservice {
     @GET("events/all/")
     fun getAllEvents():Call<EventList>
 
-    @ExperimentalMultiplatform
-    @GET("events/26/")
-    fun getSpecificEvents():Call<EventResponse>
-
 
 }

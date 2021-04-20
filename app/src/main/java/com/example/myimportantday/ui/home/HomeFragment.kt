@@ -3,7 +3,6 @@ package com.example.myimportantday.ui.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,15 +39,13 @@ class HomeFragment : Fragment() {
             apiClient.getApiService(it).getAllEvents()
                 .enqueue(object : Callback<EventList> {
                     override fun onFailure(call: Call<EventList>, t: Throwable) {
-                        Log.d("FAILURE, Obtained token", "${sessionManager.fetchAuthToken()}")
+                        println("FAILURE. Token obtained: ${sessionManager.fetchAuthToken()}.")
                     }
 
                     override fun onResponse(call: Call<EventList>, response: Response<EventList>) {
-                        Log.d("SUCCESS, Obtained token", "${sessionManager.fetchAuthToken()}")
-                        Log.d("TEXT", response.toString())
+                        println("SUCCESS. Token obtained: ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
 
                         val eventList = response.body()
-
                         val subjects = arrayOfNulls<String>(eventList?.events!!.size)
                         for (i: Int in eventList.events.indices)
                             subjects[i] = eventList.events[i].subject
@@ -73,12 +70,10 @@ class HomeFragment : Fragment() {
                         for (i: Int in eventList.events.indices)
                             pics[i] = eventList.events[i].pic
 
-
                         val adapter = MyAdapter(context!!, subjects, dates, places, priorities, advances, pics)
 
                         val listView = root.findViewById<ListView>(R.id.listView)
                         listView.adapter = adapter
-
 
                     }
                 })
@@ -94,10 +89,6 @@ class HomeFragment : Fragment() {
         private lateinit var priority: TextView
         private lateinit var advanced: TextView
         private lateinit var pic: TextView
-
-
-
-
 
         override fun getCount(): Int {
             return subjects.size
@@ -117,23 +108,14 @@ class HomeFragment : Fragment() {
             priority = thisView.findViewById(R.id.priority)
             advanced = thisView.findViewById(R.id.advanced)
             pic = thisView.findViewById(R.id.pic)
-
             subject.text = subjects[position]
-            println(subject.text)
             date.text = dates[position]
-            println(date.text)
             place.text = places[position]
-            println(place.text)
             priority.text = priorities[position]
-            println(priority.text)
             advanced.text = advances[position]
-            println(advanced.text)
             pic.text = pics[position]
-            println(pic.text)
 
             return thisView
         }
     }
-
-
 }

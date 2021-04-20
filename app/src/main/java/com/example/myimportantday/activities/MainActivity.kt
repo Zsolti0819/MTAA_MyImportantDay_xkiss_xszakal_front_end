@@ -2,7 +2,6 @@ package com.example.myimportantday.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.R
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             apiClient.getApiService(this).login(username, password)
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        Log.d("ERROR", "Error WTF")
+                        println("FAILURE. Could not log in the user. Is the server running?")
                     }
 
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -55,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                         val loginResponse = response.body()
 
                         if (loginResponse != null) {
+                            println("SUCCESS. Credentials were valid.")
                             sessionManager.saveAuthToken(loginResponse.token)
                             val intent = Intent(applicationContext, ProfileActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

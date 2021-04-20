@@ -1,7 +1,6 @@
 package com.example.myimportantday.models
 
 import com.google.gson.annotations.SerializedName
-import java.sql.Date
 import java.sql.Timestamp
 
 data class EventResponse (
