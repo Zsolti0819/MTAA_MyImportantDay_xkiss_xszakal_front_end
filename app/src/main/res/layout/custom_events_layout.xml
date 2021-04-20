@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="16dp"
-app:cardCornerRadius="15dp">
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="15dp">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="25dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +31,7 @@ app:cardCornerRadius="15dp">
 
         <TextView
             android:id="@+id/subject"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -130,32 +132,23 @@ app:cardCornerRadius="15dp">
             android:layout_weight="1"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            android:paddingBottom="20dp"
             tools:text="" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="41dp"
-            android:text="@string/photoBIG"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginRight="5dp" />
+        <ImageView
+            android:id ="@+id/pic"
+            android:layout_width ="match_parent"
+            android:layout_height ="match_parent"
+            android:scaleType ="centerInside"
+            android:src ="@drawable/ic_launcher_background"
+            android:contentDescription="@string/photo" />
 
-        <TextView
-            android:id="@+id/pic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            tools:text="" />
     </LinearLayout>
-
 </LinearLayout>
 </androidx.cardview.widget.CardView>
