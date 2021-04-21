@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.myimportantday.settings.SettingsScreen
+import com.example.myimportantday.settings.MainSettingsScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainScreen : AppCompatActivity() {
@@ -39,7 +39,7 @@ class MainScreen : AppCompatActivity() {
 
     // Clicking on the Settings icon
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(this, SettingsScreen::class.java)
+        val intent = Intent(this, MainSettingsScreen::class.java)
         when (item.itemId) {
             R.id.navigation_settings -> startActivity(intent)
         }

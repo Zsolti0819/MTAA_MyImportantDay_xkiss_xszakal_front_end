@@ -16,8 +16,8 @@ interface APIservice {
     @POST("login/")
     fun login(@Field("username") username:String, @Field("password") password: String):Call<LoginResponse>
 
-    @FormUrlEncoded
-    @PUT("logout/")
+    @ExperimentalMultiplatform
+    @POST("logout/")
     fun logout():Call<LogoutResponse>
 
     @ExperimentalMultiplatform

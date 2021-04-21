@@ -49,7 +49,7 @@ class EmailChangeScreen : AppCompatActivity() {
                     when {
                         response.code() == 200 -> {
                             println("[EmailChangeScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            val intent = Intent(this@EmailChangeScreen, SettingsScreen::class.java)
+                            val intent = Intent(this@EmailChangeScreen, MainSettingsScreen::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
                         }

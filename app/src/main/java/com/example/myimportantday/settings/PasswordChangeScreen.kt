@@ -54,7 +54,7 @@ class PasswordChangeScreen : AppCompatActivity() {
                     when {
                         response.code() == 200 -> {
                             println("[PassworChangeActivity] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            val intent = Intent(this@PasswordChangeScreen, SettingsScreen::class.java)
+                            val intent = Intent(this@PasswordChangeScreen, MainSettingsScreen::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
                         }

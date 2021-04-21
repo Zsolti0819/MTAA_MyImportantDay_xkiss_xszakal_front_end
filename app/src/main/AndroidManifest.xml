@@ -25,17 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings.SettingsScreen"
+            android:name=".settings.MainSettingsScreen"
             android:parentActivityName=".LoginScreen" />
         <activity
             android:name=".settings.UsernameChangeScreen"
-            android:parentActivityName=".settings.SettingsScreen" />
+            android:parentActivityName=".settings.MainSettingsScreen" />
         <activity
             android:name=".settings.EmailChangeScreen"
-            android:parentActivityName=".settings.SettingsScreen" />
+            android:parentActivityName=".settings.MainSettingsScreen" />
         <activity
             android:name=".settings.PasswordChangeScreen"
-            android:parentActivityName=".settings.SettingsScreen" />
+            android:parentActivityName=".settings.MainSettingsScreen" />
     </application>
 
 </manifest>

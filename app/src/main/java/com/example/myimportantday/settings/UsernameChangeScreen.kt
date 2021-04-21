@@ -47,7 +47,7 @@ class UsernameChangeScreen : AppCompatActivity() {
                     when {
                         response.code() == 200 -> {
                             println("[UsernameChangeScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            val intent = Intent(this@UsernameChangeScreen, SettingsScreen::class.java)
+                            val intent = Intent(this@UsernameChangeScreen, MainSettingsScreen::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
                         }
