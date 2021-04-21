@@ -64,7 +64,7 @@ class LoginScreen : AppCompatActivity() {
         }
 
         registerBTN.setOnClickListener{
-            val intent = Intent(applicationContext, MainScreen::class.java)
+            val intent = Intent(applicationContext, RegisterScreen::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }

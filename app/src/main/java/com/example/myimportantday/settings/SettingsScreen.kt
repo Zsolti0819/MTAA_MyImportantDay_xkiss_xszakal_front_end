@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myimportantday.LoginScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
@@ -61,7 +62,12 @@ class SettingsScreen : AppCompatActivity() {
 
                     val logOutButton = findViewById<Button>(R.id.logoutBTN)
                     logOutButton.setOnClickListener {
-                        println("TODO")
+                        println("[SettingsScreen] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
+                        sessionManager.deleteTokens()
+                        println("[SettingsScreen] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
+                        val intent = Intent(applicationContext, LoginScreen::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }
                 }
                 else if (response.code() == 401) {

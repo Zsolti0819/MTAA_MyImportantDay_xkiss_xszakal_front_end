@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">My Important Day</string>
-    <string name="welcome_to_my_important_day_please_sign_in_or_register">Welcome to My Important Day! Please sign in or register!</string>
+    <string name="welcome_to_my_important_day">Welcome to My Important Day!</string>
     <string name="title_home">Home</string>
     <string name="title_calendar">Calendar</string>
 
@@ -60,6 +60,9 @@
     <string name="your_e_mail_address_here">Your e-mail address here</string>
     <string name="there_is_an_at_symbol">There is an @ symbol</string>
     <string name="no_events">You don\'t have any events planned for today. You haven\'t forgotten anything, have you?</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="e_mail">E-mail</string>
+    <string name="already_have_an_account">Already have an account?</string>
 
 
     <string-array name="priority_levels">

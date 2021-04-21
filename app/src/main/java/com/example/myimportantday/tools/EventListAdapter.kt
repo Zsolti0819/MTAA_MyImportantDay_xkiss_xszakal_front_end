@@ -47,7 +47,6 @@ class EventListAdapter(private val context: Context, private val subjects: Array
         val path = Constants.BASE_URL.plus(pics[position])
         Picasso.with(context).load(path).into(pic)
 
-
         return thisView
     }
 }

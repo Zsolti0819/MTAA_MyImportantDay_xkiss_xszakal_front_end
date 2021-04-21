@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.newEvent.NewEventFragment"
     android:paddingBottom="55dp">
 
     <LinearLayout
@@ -33,6 +34,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/subjectET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -58,6 +60,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/dateET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -83,6 +86,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/placeET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -94,7 +98,7 @@
             android:hint="@string/where_the_event_takes_place"
             android:autofillHints=""
             android:background="@color/light_grey"
-            android:inputType="datetime" />
+            android:inputType="text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,6 +112,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/priorityET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -133,6 +138,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/advancedET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -157,7 +163,7 @@
             android:textColor="@color/holo_blue_dark"
             android:textSize="20sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/photoButton"
             android:textAllCaps="false"
             android:layout_width="match_parent"

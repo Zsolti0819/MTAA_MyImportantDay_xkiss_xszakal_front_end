@@ -1,5 +1,6 @@
 package com.example.myimportantday.models
 
-import java.sql.Date
+import java.io.File
+import java.sql.Timestamp
 
-data class EventPost (var id: Int, var subject: String, var date: Date, var place: String, var priority: String, var advanced: String, var pic: String)
+data class EventPost (var subject: String, var date: String, var place: String, var priority: String, var advanced: String, var pic: File)
