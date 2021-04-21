@@ -26,4 +26,12 @@ interface APIservice {
     @PUT("account/email/")
     fun updateEmailAddress(@Field("email") email:String):Call<ChangeEmailAddressResponse>
 
+    @FormUrlEncoded
+    @PUT("account/password/")
+    fun updatePassword(@Field("old_password") old_password:String, @Field("new_password") new_password: String):Call<ChangePasswordResponse>
+
+    @FormUrlEncoded
+    @PUT("logout/")
+    fun logout():Call<LogoutResponse>
+
 }

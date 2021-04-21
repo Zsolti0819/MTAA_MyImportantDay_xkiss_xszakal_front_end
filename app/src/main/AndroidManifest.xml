@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myimportantday">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyImportantDay">
-        <activity android:name=".activities.ProfileActivity"></activity>
-        <activity android:name=".activities.LogoutActivity" />
+        android:theme="@style/Theme.MyImportantDay"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+        <activity android:name=".RegisterScreen" />
+        <activity android:name=".MainScreen" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".LoginScreen"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,17 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:parentActivityName=".activities.MainActivity" />
+            android:name=".settings.SettingsScreen"
+            android:parentActivityName=".LoginScreen" />
         <activity
-            android:name=".activities.UsernameChangeActivity"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:name=".settings.UsernameChangeScreen"
+            android:parentActivityName=".settings.SettingsScreen" />
         <activity
-            android:name=".activities.EmailChangeActivity"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:name=".settings.EmailChangeScreen"
+            android:parentActivityName=".settings.SettingsScreen" />
         <activity
-            android:name=".activities.PasswordChangeActivity"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:name=".settings.PasswordChangeScreen"
+            android:parentActivityName=".settings.SettingsScreen" />
     </application>
 
 </manifest>

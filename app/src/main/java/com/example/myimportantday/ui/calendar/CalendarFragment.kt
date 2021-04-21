@@ -38,11 +38,11 @@ class CalendarFragment : Fragment() {
                     apiClient.getApiService(it).showAllEvents()
                         .enqueue(object : Callback<EventList> {
                             override fun onFailure(call: Call<EventList>, t: Throwable) {
-                                println("FAILURE. Token ${sessionManager.fetchAuthToken()}.")
+                                println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                             }
 
                             override fun onResponse(call: Call<EventList>, response: Response<EventList>) {
-                                println("SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("[CalendarFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
 
                                 val eventList = response.body()
                                 val subjects = arrayOfNulls<String>(eventList?.events!!.size)

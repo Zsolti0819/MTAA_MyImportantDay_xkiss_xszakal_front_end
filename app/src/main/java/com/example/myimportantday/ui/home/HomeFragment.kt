@@ -1,5 +1,6 @@
 package com.example.myimportantday.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
 import com.example.myimportantday.tools.EventListAdapter
+import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,17 +35,31 @@ class HomeFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents()
-                .enqueue(object : Callback<EventList> {
-                    override fun onFailure(call: Call<EventList>, t: Throwable) {
-                        println("FAILURE. Token ${sessionManager.fetchAuthToken()}.")
+            apiClient.getApiService(it).showAllEvents().enqueue(object : Callback<EventList> {
+                override fun onFailure(call: Call<EventList>, t: Throwable) {
+                    println("[HomeFragment] FAILURE. Is the server running?" + t.stackTrace)
+                }
+
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(call: Call<EventList>, response: Response<EventList>) {
+                    println("[HomeFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+
+                    val eventList = response.body()
+
+
+                    if (eventList?.events?.size == 0) {
+                        no_events.setVisibility(View.VISIBLE)
                     }
 
-                    override fun onResponse(call: Call<EventList>, response: Response<EventList>) {
-                        println("SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                    else if (eventList?.events?.size != 0) {
+                        no_events.visibility = View.VISIBLE
+                        when {
+                            eventList?.events?.size == 1 -> no_events.text = "You have ${eventList.events.size} event planned for today. Easy."
+                            eventList?.events?.size!! > 1 && eventList.events.size < 4 -> no_events.text = "You have ${eventList.events.size} events planned for today. You got this!"
+                            else -> no_events.text = "You have ${eventList.events.size} events planned for today. What a busy day!"
+                        }
 
-                        val eventList = response.body()
-                        val subjects = arrayOfNulls<String>(eventList?.events!!.size)
+                        val subjects = arrayOfNulls<String>(eventList.events.size)
                         for (i: Int in eventList.events.indices)
                             subjects[i] = eventList.events[i].subject
 
@@ -71,9 +87,9 @@ class HomeFragment : Fragment() {
 
                         val listView = root.findViewById<ListView>(R.id.listView)
                         listView.adapter = adapter
-
                     }
-                })
+                }
+            })
         }
 
         return root

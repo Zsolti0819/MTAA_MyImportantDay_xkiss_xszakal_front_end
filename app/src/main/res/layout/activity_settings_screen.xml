@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SettingsActivity"
+    tools:context=".settings.SettingsScreen"
     android:orientation="vertical">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:contentDescription="@string/there_is_a_lock" />
 
     <TextView
-        android:id="@+id/usernameField"
+        android:id="@+id/usernameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -28,7 +28,7 @@
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/emailField"
+        android:id="@+id/emailET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,7 +38,7 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/changeUsernameButton"
+        android:id="@+id/changeUsernameBTN"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
@@ -51,7 +51,7 @@
         tools:targetApi="lollipop" />
 
     <Button
-        android:id="@+id/changeEmailButton"
+        android:id="@+id/changeEmailBTN"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -64,7 +64,7 @@
         tools:targetApi="lollipop" />
 
     <Button
-        android:id="@+id/changePasswordButton"
+        android:id="@+id/changePasswordBTN"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -77,7 +77,7 @@
         tools:targetApi="lollipop" />
 
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/logoutBTN"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"

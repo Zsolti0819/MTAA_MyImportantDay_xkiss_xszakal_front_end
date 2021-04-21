@@ -58,6 +58,8 @@
     <string name="photoBIG">PHOTO</string>
     <string name="your_username_here">Your username here</string>
     <string name="your_e_mail_address_here">Your e-mail address here</string>
+    <string name="there_is_an_at_symbol">There is an @ symbol</string>
+    <string name="no_events">You don\'t have any events planned for today. You haven\'t forgotten anything, have you?</string>
 
 
     <string-array name="priority_levels">

@@ -1,12 +1,11 @@
-package com.example.myimportantday.activities
+package com.example.myimportantday
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.myimportantday.R
 
-class LogoutActivity : AppCompatActivity() {
+class RegisterScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_logout)
+        setContentView(R.layout.activity_register_screen)
     }
 }
