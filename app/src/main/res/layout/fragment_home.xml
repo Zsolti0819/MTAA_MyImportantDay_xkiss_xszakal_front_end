@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,7 +6,6 @@
     android:layout_height="wrap_content"
     tools:context=".ui.home.HomeFragment"
     android:orientation="vertical">
-
 
     <ListView
         android:id="@+id/listView"

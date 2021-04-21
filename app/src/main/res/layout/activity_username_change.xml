@@ -27,6 +27,7 @@
         android:textSize="25sp" />
 
     <EditText
+        android:id="@+id/usernameField"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="32dp"
@@ -36,11 +37,13 @@
         android:drawablePadding="16dp"
         android:hint="@string/type_in_your_new_username"
         android:drawableStart="@drawable/ic_baseline_account_box_24"
+        android:imeActionLabel="@string/change_username"
+        android:imeOptions="actionDone"
         android:autofillHints=""
         android:inputType="text" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/lol"
+    <Button
+        android:id="@+id/changeUsernameButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"

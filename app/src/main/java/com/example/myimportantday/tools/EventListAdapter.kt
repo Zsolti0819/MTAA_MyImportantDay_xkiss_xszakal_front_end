@@ -13,7 +13,7 @@ import com.example.myimportantday.api.Constants
 import com.squareup.picasso.Picasso
 
 
-class MyAdapter(private val context: Context, private val subjects: Array<String?>, private val dates: Array<String?>, private val places: Array<String?>, private val priorities: Array<String?>, private val advances: Array<String?>, private val pics: Array<String?>) : BaseAdapter() {
+class EventListAdapter(private val context: Context, private val subjects: Array<String?>, private val dates: Array<String?>, private val places: Array<String?>, private val priorities: Array<String?>, private val advances: Array<String?>, private val pics: Array<String?>) : BaseAdapter() {
     private lateinit var subject: TextView
     private lateinit var date: TextView
     private lateinit var place: TextView

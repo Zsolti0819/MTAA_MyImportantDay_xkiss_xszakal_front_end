@@ -1,9 +1,3 @@
 package com.example.myimportantday.models
 
-data class User (
-
-    var username: String,
-    var email: String
-
-
-)
+data class AccountInfoResponse (var username: String, var email: String)

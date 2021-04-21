@@ -171,7 +171,7 @@
             android:text="@string/optional_photo_from_your_galery"
             tools:ignore="UnusedAttribute" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/createEventButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"

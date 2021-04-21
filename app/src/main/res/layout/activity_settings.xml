@@ -17,16 +17,27 @@
         android:contentDescription="@string/there_is_a_lock" />
 
     <TextView
+        android:id="@+id/usernameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:text="@string/title_settings"
+        android:layout_marginTop="65dp"
+        android:text="@string/your_username_here"
         android:textStyle="bold"
         android:textColor="@color/holo_blue_dark"
         android:textSize="25sp" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
+        android:id="@+id/emailField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/your_e_mail_address_here"
+        android:textStyle="bold"
+        android:textColor="@color/holo_blue_dark"
+        android:textSize="25sp" />
+
+    <Button
         android:id="@+id/changeUsernameButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -39,7 +50,7 @@
         android:text="@string/change_username"
         tools:targetApi="lollipop" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/changeEmailButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -52,7 +63,7 @@
         android:text="@string/change_e_mail_address"
         tools:targetApi="lollipop" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/changePasswordButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -65,7 +76,7 @@
         android:text="@string/change_password"
         tools:targetApi="lollipop" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -56,6 +56,8 @@
     <string name="priorityBIG">PRIORITY:</string>
     <string name="advancedBIG">ADVANCED:</string>
     <string name="photoBIG">PHOTO</string>
+    <string name="your_username_here">Your username here</string>
+    <string name="your_e_mail_address_here">Your e-mail address here</string>
 
 
     <string-array name="priority_levels">
