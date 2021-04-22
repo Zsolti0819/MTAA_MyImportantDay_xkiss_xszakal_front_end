@@ -21,8 +21,8 @@ interface APIservice {
     fun logout():Call<LogoutResponse>
 
     @ExperimentalMultiplatform
-    @GET("events/all/")
-    fun showAllEvents():Call<EventList>
+    @GET("events/{date}/")
+    fun showAllEvents(@Path("date") date: String):Call<EventList>
 
     @ExperimentalMultiplatform
     @GET("account/")

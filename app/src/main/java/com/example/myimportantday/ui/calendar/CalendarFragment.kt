@@ -33,10 +33,10 @@ class CalendarFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
         val calendar = root.findViewById<CalendarView>(R.id.calendarView)
         calendar.setOnDateChangeListener { myCalendar, year, month, dayOfMonth ->
-            println("Selected date $year/${month+1}/$dayOfMonth")
+
+            val selectedDate = "$year-${month+1}-$dayOfMonth"
             context?.let {
-                    apiClient.getApiService(it).showAllEvents()
-                        .enqueue(object : Callback<EventList> {
+                    apiClient.getApiService(it).showAllEvents(selectedDate).enqueue(object : Callback<EventList> {
                             override fun onFailure(call: Call<EventList>, t: Throwable) {
                                 println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                             }

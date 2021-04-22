@@ -1,11 +1,13 @@
 package com.example.myimportantday.ui.home
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
@@ -16,12 +18,15 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
 
     private lateinit var apiClient: APIclient
     private lateinit var sessionManager: SessionManager
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMultiplatform
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +39,10 @@ class HomeFragment : Fragment() {
         apiClient = APIclient()
         sessionManager = context?.let { SessionManager(it) }!!
 
+        val currentDateTime = LocalDateTime.now()
+
         context?.let {
-            apiClient.getApiService(it).showAllEvents().enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEvents(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[HomeFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }
@@ -45,7 +52,6 @@ class HomeFragment : Fragment() {
                     println("[HomeFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
 
                     val eventList = response.body()
-
 
                     if (eventList?.events?.size == 0) {
                         no_events.setVisibility(View.VISIBLE)
