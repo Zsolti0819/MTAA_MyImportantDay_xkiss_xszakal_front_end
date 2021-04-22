@@ -4,7 +4,6 @@ import com.example.myimportantday.models.*
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.sql.Timestamp
 
 interface APIservice {
 
@@ -47,9 +46,9 @@ interface APIservice {
         @Field("date") date: String,
         @Field("place") place:String,
         @Field("priority") priority:String,
-        @Field("advanced") advanced:String/*,
-        @Part pic: MultipartBody.Part?*/
-    ):Call<EventPost>
+        @Field("advanced") advanced:String,
+        @Field("pic") pic: MultipartBody.Part
+    ):Call<EventResponse>
 
 
 
