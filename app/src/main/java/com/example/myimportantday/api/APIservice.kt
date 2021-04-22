@@ -40,15 +40,15 @@ interface APIservice {
     @PUT("account/password/")
     fun updatePassword(@Field("old_password") old_password:String, @Field("new_password") new_password: String):Call<ChangePasswordResponse>
 
-    @Multipart
+    @FormUrlEncoded
     @POST("events/")
     fun postEvent(
-        @Part("subject") subject:String,
-        @Part("date") date: String,
-        @Part("place") place:String,
-        @Part("priority") priority:String,
-        @Part("advanced") advanced:String,
-        @Part pic: MultipartBody.Part?
+        @Field("subject") subject:String,
+        @Field("date") date: String,
+        @Field("place") place:String,
+        @Field("priority") priority:String,
+        @Field("advanced") advanced:String/*,
+        @Part pic: MultipartBody.Part?*/
     ):Call<EventPost>
 
 

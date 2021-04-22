@@ -46,10 +46,10 @@
     <string name="priority">Priority</string>
     <string name="how_important_is_this_event">How important is this event?</string>
     <string name="advanced">Advanced</string>
-    <string name="optional_additional_information">[Optional] Additional information</string>
+    <string name="do_you_want_to_add_a_photo">Do you want to add a photo?</string>
     <string name="create_event">Create event</string>
     <string name="photo">Photo</string>
-    <string name="optional_photo_from_your_galery">[Optional] Photo from your galery</string>
+    <string name="additional_info">Do you want to add some more info?</string>
     <string name="subjectBIG">SUBJECT:</string>
     <string name="dateBIG">DATE:</string>
     <string name="placeBIG">PLACE:</string>
@@ -63,6 +63,9 @@
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="e_mail">E-mail</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="time">Time</string>
+    <string name="what_time_the_event_take_place">What time the event take place?</string>
+    <string name="select_date">Select date</string>
 
 
     <string-array name="priority_levels">

@@ -46,6 +46,8 @@
             android:hint="@string/describe_the_event_in_a_few_words"
             android:autofillHints=""
             android:background="@color/light_grey"
+            android:imeActionLabel="@string/describe_the_event_in_a_few_words"
+            android:imeOptions="actionDone"
             android:inputType="text" />
 
         <TextView
@@ -59,20 +61,39 @@
             android:textColor="@color/holo_blue_dark"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/dateET"
+        <DatePicker
+            android:id="@+id/datePicker"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:drawableLeft="@drawable/ic_baseline_access_time_24"
-            android:drawableStart="@drawable/ic_baseline_access_time_24"
-            android:drawablePadding="16dp"
-            android:hint="@string/when_will_the_event_take_a_place"
-            android:autofillHints=""
             android:background="@color/light_grey"
-            android:inputType="datetime" />
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:text="@string/time"
+            android:textStyle="bold"
+            android:textColor="@color/holo_blue_dark"
+            android:textSize="20sp" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/light_grey"
+            android:timePickerMode="spinner"
+            tools:targetApi="lollipop" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,6 +119,8 @@
             android:hint="@string/where_the_event_takes_place"
             android:autofillHints=""
             android:background="@color/light_grey"
+            android:imeActionLabel="@string/where_the_event_takes_place"
+            android:imeOptions="actionDone"
             android:inputType="text" />
 
         <TextView
@@ -111,20 +134,14 @@
             android:textColor="@color/holo_blue_dark"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/priorityET"
+        <Spinner
+            android:id="@+id/prioritySP"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:drawableLeft="@drawable/ic_baseline_priority_high_24"
-            android:drawableStart="@drawable/ic_baseline_priority_high_24"
-            android:drawablePadding="16dp"
-            android:hint="@string/how_important_is_this_event"
-            android:autofillHints=""
-            android:background="@color/light_grey"
-            android:inputType="number" />
+            android:background="@color/light_grey"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,7 +164,7 @@
             android:drawableLeft="@drawable/ic_baseline_info_24"
             android:drawableStart="@drawable/ic_baseline_info_24"
             android:drawablePadding="16dp"
-            android:hint="@string/optional_additional_information"
+            android:hint="@string/additional_info"
             android:autofillHints=""
             android:inputType="text"
             android:background="@color/light_grey" />
@@ -174,7 +191,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:backgroundTint="@color/grey"
-            android:text="@string/optional_photo_from_your_galery"
+            android:text="@string/do_you_want_to_add_a_photo"
             tools:ignore="UnusedAttribute" />
 
         <Button
