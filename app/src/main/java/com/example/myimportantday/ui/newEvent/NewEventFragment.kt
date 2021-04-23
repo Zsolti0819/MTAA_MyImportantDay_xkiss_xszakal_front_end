@@ -1,5 +1,6 @@
 package com.example.myimportantday.ui.newEvent
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -12,11 +13,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.myimportantday.LoginScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
+import com.example.myimportantday.ui.home.HomeFragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_new_event.*
 import kotlinx.android.synthetic.main.fragment_new_event.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -36,12 +40,14 @@ import java.time.LocalTime
 import java.util.*
 
 
+
 class NewEventFragment : Fragment() {
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
-    private lateinit var filePath: Uri
+    private var filePath: Uri? = null
     private lateinit var eventDate: String
     private lateinit var eventTime: String
+    private var picture: MultipartBody.Part? = null
     lateinit var eventPriority: String
     private var code: Int = 0
 
@@ -94,7 +100,9 @@ class NewEventFragment : Fragment() {
         val priorityList = resources.getStringArray(R.array.priority_levels)
         val prioritySpinner = root.findViewById<Spinner>(R.id.prioritySP)
         var pos: Int
-        prioritySpinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorityList)
+        prioritySpinner.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item,
+            priorityList)
         prioritySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long)  {
                 pos = position
@@ -108,9 +116,7 @@ class NewEventFragment : Fragment() {
 
         // Photo Button
         root.photoButton.setOnClickListener{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 123)
+            uploadImage()
         }
 
         // Create Event Button
@@ -134,17 +140,25 @@ class NewEventFragment : Fragment() {
             }
 
             // Photo
-            val parcelFileDescriptor = requireContext().contentResolver.openFileDescriptor(filePath, "r", null) ?: return@setOnClickListener
-            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(filePath))
-            println("file:$file")
-            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-            val outputStream = FileOutputStream(file)
+            if (filePath != null) {
+                val parcelFileDescriptor = requireContext().contentResolver.openFileDescriptor(
+                    filePath!!,
+                    "r",
+                    null) ?: return@setOnClickListener
+                val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(
+                    filePath!!))
+                println("file:$file")
+                val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+                val outputStream = FileOutputStream(file)
 
-            inputStream.copyTo(outputStream)
-            val requestFile: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                inputStream.copyTo(outputStream)
+                val requestFile: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            val pic: MultipartBody.Part = createFormData("pic", file.name, requestFile)
-            println("filePart: $pic")
+                picture = createFormData("pic", file.name, requestFile)
+                println("filePart: $picture")
+            }
+
+
 
             val eventDateAndTime = eventDate.plus("T").plus(eventTime)
             println("eventDateAndTime: $eventDateAndTime")
@@ -157,29 +171,48 @@ class NewEventFragment : Fragment() {
 
 
             context?.let {
-                apiClient.getApiService(it).postEvent(subject,
-                    date,
-                    place,
-                    priority,
-                    advanced,
-                    pic).enqueue(object : Callback<EventResponse> {
+                apiClient.getApiService(it).postEvent(subject, date, place, priority, advanced, picture).enqueue(object : Callback<EventResponse> {
                     override fun onResponse(
                         call: Call<EventResponse>,
                         response: Response<EventResponse>
                     ) {
-                        println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                        println("SUCCESS")
-                        println("eventSubject = $eventSubject")
-                        println("eventDateAndTime = $eventDateAndTime")
-                        println("eventPlace = $eventPlace")
-                        println("eventPriority = $eventPriority")
-                        println("eventAdvanced = $eventAdvanced")
-                        println("pic = $pic")
-
+                        when {
+                            response.code() == 200 -> {
+                                println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("SUCCESS")
+                                println("eventSubject = $eventSubject")
+                                println("eventDateAndTime = $eventDateAndTime")
+                                println("eventPlace = $eventPlace")
+                                println("eventPriority = $eventPriority")
+                                println("eventAdvanced = $eventAdvanced")
+                                println("pic = $picture")
+                                val message = "Event was created successfully!\nYou can find it in the calendar!"
+                                Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).also { snackbar -> snackbar.setAction("OK") {snackbar.dismiss()} }.show()
+//                                val intent = Intent(context, HomeFragment::class.java)
+//                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                                startActivity(intent)
+                            }
+                            response.code() == 400 -> {
+                                println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("This is not possible")
+                                val message = "Something went terrible wrong ... "
+                                Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).also { snackbar -> snackbar.setAction("OK") {snackbar.dismiss()} }.show()
+                            }
+                            response.code() == 401 -> {
+                                println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("This is not possible, but in this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
+                                println("[MainSettingsScreen] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
+                                sessionManager.deleteTokens()
+                                println("[MainSettingsScreen] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
+                                val intent = Intent(context, LoginScreen::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                        }
                     }
 
                     override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                        println("FAIL")
+                        println("[NewEventFragment] FAILURE. Token ${sessionManager.fetchAuthToken()}.")
 
                     }
                 })
@@ -188,7 +221,14 @@ class NewEventFragment : Fragment() {
         return root
     }
 
+    private fun uploadImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 123)
+    }
 
+
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 123) {
@@ -196,7 +236,7 @@ class NewEventFragment : Fragment() {
             filePath = data!!.data!!
             println("data.data: " + data.data)
 
-            photoButton.text = filePath.toString()
+            photoButton.text = "A photo was selected"
         }
     }
 

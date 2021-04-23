@@ -19,8 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
 
@@ -41,7 +39,7 @@ class HomeFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
 
         val currentDateTime = LocalDate.now()
-        println("CURRENT:" + currentDateTime)
+        println("[HomeFragment] INFO Current date: $currentDateTime")
 
         context?.let {
             apiClient.getApiService(it).showAllEvents(currentDateTime.toString()).enqueue(object : Callback<EventList> {
@@ -56,7 +54,7 @@ class HomeFragment : Fragment() {
                     val eventList = response.body()
 
                     if (eventList?.events?.size == 0) {
-                        no_events.setVisibility(View.VISIBLE)
+                        no_events.visibility = View.VISIBLE
                     }
 
                     else if (eventList?.events?.size != 0) {
@@ -73,7 +71,7 @@ class HomeFragment : Fragment() {
 
                         val dates = arrayOfNulls<String>(eventList.events.size)
                         for (i: Int in eventList.events.indices)
-                            dates[i] = eventList.events[i].date.toString()
+                            dates[i] = eventList.events[i].date
 
                         val places = arrayOfNulls<String>(eventList.events.size)
                         for (i: Int in eventList.events.indices)

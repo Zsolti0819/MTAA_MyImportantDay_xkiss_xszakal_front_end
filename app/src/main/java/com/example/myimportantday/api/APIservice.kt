@@ -20,10 +20,6 @@ interface APIservice {
     @POST("logout/")
     fun logout():Call<LogoutResponse>
 
-//    @ExperimentalMultiplatform
-//    @GET("events/{date}/")
-//    fun showAllEvents(@Path("date") date: String):Call<EventList>
-
     @ExperimentalMultiplatform
     @GET("events/{date}/")
     fun showAllEvents(@Path("date") date: String):Call<EventList>
@@ -52,7 +48,7 @@ interface APIservice {
         @Part ("place") place: RequestBody,
         @Part ("priority") priority: RequestBody,
         @Part ("advanced") advanced: RequestBody,
-        @Part pic: MultipartBody.Part
+        @Part pic: MultipartBody.Part?
     ):Call<EventResponse>
 
 
