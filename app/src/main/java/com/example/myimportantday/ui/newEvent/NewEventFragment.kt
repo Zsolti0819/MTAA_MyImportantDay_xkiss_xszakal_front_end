@@ -57,24 +57,32 @@ class NewEventFragment : Fragment() {
         val currentYear = LocalDate.now().year
         val currentMonth = LocalDate.now().monthValue
         val currentDay = LocalDate.now().dayOfMonth
-        val currentDate = "${currentYear}-${currentMonth}-${currentDay}"
+        val currentDate = "${currentDay}-${currentMonth}-${currentYear}"
         eventDate = currentDate
+        println("Untouched eventDate: $eventDate")
 
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
         datePicker.setOnDateChangedListener { _, year, month, day ->
-            val selectedDate = "${year}-${month+1}-${day}"
-            eventDate = selectedDate }
+            val selectedDate = "${day}-${month+1}-${year}"
+            eventDate = selectedDate
+            println("User selected eventDate: $eventDate")}
 
 
         // Time
         val currentHour = LocalTime.now().hour.toString()
         val currentMinutes = LocalTime.now().minute.toString()
         eventTime = currentHour.plus(":").plus(currentMinutes)
+        println("Untouched eventTime: $eventTime")
+
 
         val timePicker = root.findViewById<TimePicker>(R.id.timePicker)
         timePicker.setIs24HourView(true)
         timePicker.setOnTimeChangedListener { _, hour, minute ->
-            eventTime = hour.toString().plus(":").plus(minute.toString()) }
+            val eventHour: String = hour.toString()
+            val eventMinute: String = minute.toString()
+            eventTime = eventHour.plus(":").plus(eventMinute)
+            println("User selected eventTime: $eventTime")
+        }
 
 
         // Priority
@@ -131,18 +139,21 @@ class NewEventFragment : Fragment() {
             inputStream.copyTo(outputStream)
             val requestFile: RequestBody =
                 file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val body: MultipartBody.Part = createFormData("photo", file.name, requestFile)
+            val body: MultipartBody.Part = createFormData("pic", file.name, requestFile)
             println(body)
 
-            val eventDateTime = eventDate.plus("T").plus(eventTime)
+
+            val eventDateAndTime = eventDate.plus(" ").plus(eventTime)
+            println("eventDateAndTime: $eventDateAndTime")
+
 
             context?.let {
-                apiClient.getApiService(it).postEvent(subject = eventSubject, date = eventDateTime, place = eventPlace, priority = eventPriority, advanced = eventAdvanced, pic = body).enqueue(object : Callback<EventResponse> {
+                apiClient.getApiService(it).postEvent(eventSubject, eventDateAndTime, eventPlace, eventPriority, eventAdvanced, body).enqueue(object : Callback<EventResponse> {
                     override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                         println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                             println("SUCCESS")
                             println(eventSubject)
-                            println(eventDateTime)
+                            println(eventDateAndTime)
                             println(eventPlace)
                             println(eventPriority)
                             println(eventAdvanced)

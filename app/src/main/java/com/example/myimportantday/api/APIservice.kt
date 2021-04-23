@@ -4,6 +4,9 @@ import com.example.myimportantday.models.*
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.sql.Date
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 interface APIservice {
 
@@ -19,9 +22,13 @@ interface APIservice {
     @POST("logout/")
     fun logout():Call<LogoutResponse>
 
+//    @ExperimentalMultiplatform
+//    @GET("events/{date}/")
+//    fun showAllEvents(@Path("date") date: String):Call<EventList>
+
     @ExperimentalMultiplatform
-    @GET("events/{date}/")
-    fun showAllEvents(@Path("date") date: String):Call<EventList>
+    @GET("events/all/")
+    fun showAllEvents():Call<EventList>
 
     @ExperimentalMultiplatform
     @GET("account/")
@@ -39,15 +46,15 @@ interface APIservice {
     @PUT("account/password/")
     fun updatePassword(@Field("old_password") old_password:String, @Field("new_password") new_password: String):Call<ChangePasswordResponse>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("events/")
     fun postEvent(
-        @Field("subject") subject:String,
-        @Field("date") date: String,
-        @Field("place") place:String,
-        @Field("priority") priority:String,
-        @Field("advanced") advanced:String,
-        @Field("pic") pic: MultipartBody.Part
+        @Part("subject") subject: String,
+        @Part("date") date: String,
+        @Part("place") place:String,
+        @Part("priority") priority:String,
+        @Part("advanced") advanced:String,
+        @Part pic: MultipartBody.Part
     ):Call<EventResponse>
 
 

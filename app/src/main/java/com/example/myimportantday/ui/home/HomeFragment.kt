@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         val currentDateTime = LocalDateTime.now()
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEvents(/*currentDateTime.format(DateTimeFormatter.ISO_DATE)*/).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[HomeFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }
