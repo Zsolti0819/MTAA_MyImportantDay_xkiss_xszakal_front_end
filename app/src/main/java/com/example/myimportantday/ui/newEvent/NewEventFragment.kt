@@ -20,7 +20,6 @@ import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_logged_in_screen.*
 import kotlinx.android.synthetic.main.fragment_new_event.*
 import kotlinx.android.synthetic.main.fragment_new_event.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

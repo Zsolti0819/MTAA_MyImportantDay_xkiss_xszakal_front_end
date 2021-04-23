@@ -72,8 +72,8 @@
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
         android:hint="@string/prompt_password"
-        android:background="@color/light_grey"
         android:autofillHints="password"
+        android:background="@color/light_grey"
         android:selectAllOnFocus="true"
         android:inputType="textPassword"/>
 
@@ -88,14 +88,14 @@
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
         android:hint="@string/prompt_password_again"
-        android:background="@color/light_grey"
         android:autofillHints="password"
+        android:background="@color/light_grey"
         android:selectAllOnFocus="true"
         android:inputType="textPassword"
         android:imeOptions="actionDone"/>
 
     <Button
-        android:id="@+id/registerBTN"
+        android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -120,7 +120,7 @@
         />
 
     <Button
-        android:id="@+id/loginBTN"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"

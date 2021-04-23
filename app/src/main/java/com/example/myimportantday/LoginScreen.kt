@@ -2,11 +2,11 @@ package com.example.myimportantday
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.LoginResponse
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +22,7 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_screen)
 
-        loginBTN.setOnClickListener {
+        loginButton.setOnClickListener {
 
             val username = usernameET.text.toString().trim()
             val password = passwordET.text.toString().trim()
@@ -57,13 +57,14 @@ class LoginScreen : AppCompatActivity() {
                     }
                     else if (response.code() == 400) {
                         println("[LoginScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                        Toast.makeText(applicationContext,"Wrong username or password",Toast.LENGTH_LONG).show()
+                        val message = "Wrong username or password"
+                        Snackbar.make(it, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                     }
                 }
             })
         }
 
-        registerBTN.setOnClickListener{
+        registerButton.setOnClickListener{
             val intent = Intent(applicationContext, RegisterScreen::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

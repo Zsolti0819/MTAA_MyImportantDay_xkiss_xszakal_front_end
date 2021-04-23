@@ -23,13 +23,13 @@ class RegisterScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_screen)
 
-        loginBTN.setOnClickListener{
+        loginButton.setOnClickListener{
             val intent = Intent(applicationContext, LoginScreen::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
 
-        registerBTN.setOnClickListener {
+        registerButton.setOnClickListener {
 
             val username = usernameET.text.toString().trim()
             val email = emailET.text.toString().trim()
