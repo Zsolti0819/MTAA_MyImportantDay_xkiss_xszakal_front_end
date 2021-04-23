@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -39,10 +40,11 @@ class HomeFragment : Fragment() {
         apiClient = APIclient()
         sessionManager = context?.let { SessionManager(it) }!!
 
-        val currentDateTime = LocalDateTime.now()
+        val currentDateTime = LocalDate.now()
+        println("CURRENT:" + currentDateTime)
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents(/*currentDateTime.format(DateTimeFormatter.ISO_DATE)*/).enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEvents(currentDateTime.toString()).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[HomeFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }

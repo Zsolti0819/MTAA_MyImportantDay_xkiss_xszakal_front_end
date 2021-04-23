@@ -18,6 +18,7 @@ import com.example.myimportantday.tools.EventListAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -38,10 +39,10 @@ class CalendarFragment : Fragment() {
         apiClient = APIclient()
         sessionManager = context?.let { SessionManager(it) }!!
 
-        val currentDateTime = LocalDateTime.now()
+        val currentDateTime = LocalDate.now()
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents(/*currentDateTime.format(DateTimeFormatter.ISO_DATE)*/).enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEvents(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }
@@ -94,7 +95,7 @@ class CalendarFragment : Fragment() {
         calendar.setOnDateChangeListener { _, year, month, day ->
             val selectedDate = "$year-${month+1}-$day"
             context?.let {
-                apiClient.getApiService(it).showAllEvents(/*selectedDate*/).enqueue(object : Callback<EventList> {
+                apiClient.getApiService(it).showAllEvents(selectedDate).enqueue(object : Callback<EventList> {
                     override fun onFailure(call: Call<EventList>, t: Throwable) {
                         println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                     }

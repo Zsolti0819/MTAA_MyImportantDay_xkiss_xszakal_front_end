@@ -2,11 +2,9 @@ package com.example.myimportantday.api
 
 import com.example.myimportantday.models.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.sql.Date
-import java.sql.Timestamp
-import java.time.LocalDateTime
 
 interface APIservice {
 
@@ -27,8 +25,8 @@ interface APIservice {
 //    fun showAllEvents(@Path("date") date: String):Call<EventList>
 
     @ExperimentalMultiplatform
-    @GET("events/all/")
-    fun showAllEvents():Call<EventList>
+    @GET("events/{date}/")
+    fun showAllEvents(@Path("date") date: String):Call<EventList>
 
     @ExperimentalMultiplatform
     @GET("account/")
@@ -49,11 +47,11 @@ interface APIservice {
     @Multipart
     @POST("events/")
     fun postEvent(
-        @Part("subject") subject: String,
-        @Part("date") date: String,
-        @Part("place") place:String,
-        @Part("priority") priority:String,
-        @Part("advanced") advanced:String,
+        @Part ("subject") subject: RequestBody,
+        @Part ("date") date: RequestBody,
+        @Part ("place") place: RequestBody,
+        @Part ("priority") priority: RequestBody,
+        @Part ("advanced") advanced: RequestBody,
         @Part pic: MultipartBody.Part
     ):Call<EventResponse>
 

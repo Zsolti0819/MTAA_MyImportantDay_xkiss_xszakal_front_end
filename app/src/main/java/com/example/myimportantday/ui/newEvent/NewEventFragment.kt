@@ -24,6 +24,7 @@ import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +47,11 @@ class NewEventFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_new_event, container, false)
 
         apiClient = APIclient()
@@ -57,13 +62,13 @@ class NewEventFragment : Fragment() {
         val currentYear = LocalDate.now().year
         val currentMonth = LocalDate.now().monthValue
         val currentDay = LocalDate.now().dayOfMonth
-        val currentDate = "${currentDay}-${currentMonth}-${currentYear}"
+        val currentDate = "${currentYear}-${currentMonth}-${currentDay}"
         eventDate = currentDate
         println("Untouched eventDate: $eventDate")
 
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
         datePicker.setOnDateChangedListener { _, year, month, day ->
-            val selectedDate = "${day}-${month+1}-${year}"
+            val selectedDate = "${year}-${month+1}-${day}"
             eventDate = selectedDate
             println("User selected eventDate: $eventDate")}
 
@@ -89,7 +94,9 @@ class NewEventFragment : Fragment() {
         val priorityList = resources.getStringArray(R.array.priority_levels)
         val prioritySP = root.findViewById<Spinner>(R.id.prioritySP)
         var pos: Int
-        prioritySP.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorityList)
+        prioritySP.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item,
+            priorityList)
         prioritySP.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long)  {
                 pos = position
@@ -131,33 +138,47 @@ class NewEventFragment : Fragment() {
             val parcelFileDescriptor =
                 requireContext().contentResolver.openFileDescriptor(filePath, "r", null)
                     ?: return@setOnClickListener
-            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(filePath))
+            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(
+                filePath))
             println("file:$file")
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
             val outputStream = FileOutputStream(file)
 
             inputStream.copyTo(outputStream)
-            val requestFile: RequestBody =
-                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val body: MultipartBody.Part = createFormData("pic", file.name, requestFile)
-            println(body)
+            val requestFile: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
+            val filePart: MultipartBody.Part = createFormData("pic", file.name, requestFile)
+            println(filePart)
 
-            val eventDateAndTime = eventDate.plus(" ").plus(eventTime)
+            val eventDateAndTime = eventDate.plus("T").plus(eventTime)
             println("eventDateAndTime: $eventDateAndTime")
+
+            val subject: RequestBody = eventSubject.toRequestBody(MultipartBody.FORM)
+            val date: RequestBody = eventDateAndTime.toRequestBody(MultipartBody.FORM)
+            val place: RequestBody = eventPlace.toRequestBody(MultipartBody.FORM)
+            val priority: RequestBody = eventPriority.toRequestBody(MultipartBody.FORM)
+            val advanced: RequestBody = eventAdvanced.toRequestBody(MultipartBody.FORM)
 
 
             context?.let {
-                apiClient.getApiService(it).postEvent(eventSubject, eventDateAndTime, eventPlace, eventPriority, eventAdvanced, body).enqueue(object : Callback<EventResponse> {
-                    override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
+                apiClient.getApiService(it).postEvent(subject,
+                    date,
+                    place,
+                    priority,
+                    advanced,
+                    filePart).enqueue(object : Callback<EventResponse> {
+                    override fun onResponse(
+                        call: Call<EventResponse>,
+                        response: Response<EventResponse>
+                    ) {
                         println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("SUCCESS")
-                            println(eventSubject)
-                            println(eventDateAndTime)
-                            println(eventPlace)
-                            println(eventPriority)
-                            println(eventAdvanced)
-                            println(body)
+                        println("SUCCESS")
+                        println(eventSubject)
+                        println(eventDateAndTime)
+                        println(eventPlace)
+                        println(eventPriority)
+                        println(eventAdvanced)
+                        println(filePart)
 
                     }
 
