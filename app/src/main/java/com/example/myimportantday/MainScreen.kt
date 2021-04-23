@@ -10,6 +10,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myimportantday.settings.MainSettingsScreen
+import com.example.myimportantday.ui.home.HomeFragment
+import com.example.myimportantday.ui.newEvent.NewEventFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainScreen : AppCompatActivity() {
@@ -29,7 +31,20 @@ class MainScreen : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
+        val homeFragment = HomeFragment()
+
+        //redirectToHome(homeFragment)
     }
+
+    private fun redirectToHome(homeFragment: HomeFragment) {
+        val manager = supportFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, homeFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
 
     // Creating the Settings icon in the top right corner
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

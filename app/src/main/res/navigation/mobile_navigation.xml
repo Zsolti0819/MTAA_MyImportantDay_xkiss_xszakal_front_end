@@ -21,6 +21,7 @@
         android:id="@+id/navigation_new_event"
         android:name="com.example.myimportantday.ui.newEvent.NewEventFragment"
         android:label="@string/title_new_event"
-        tools:layout="@layout/fragment_new_event" />
+        tools:layout="@layout/fragment_new_event" >
+    </fragment>
 
 </navigation>

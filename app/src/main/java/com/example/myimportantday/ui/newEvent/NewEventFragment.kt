@@ -3,6 +3,7 @@ package com.example.myimportantday.ui.newEvent
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +14,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.replace
 import com.example.myimportantday.LoginScreen
+import com.example.myimportantday.MainScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
@@ -21,6 +25,7 @@ import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
 import com.example.myimportantday.ui.home.HomeFragment
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_logged_in_screen.*
 import kotlinx.android.synthetic.main.fragment_new_event.*
 import kotlinx.android.synthetic.main.fragment_new_event.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,7 +43,6 @@ import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
-
 
 
 class NewEventFragment : Fragment() {
@@ -62,7 +66,49 @@ class NewEventFragment : Fragment() {
         apiClient = APIclient()
         sessionManager = context?.let { SessionManager(it) }!!
 
+        getDateAndTime(root)
+        getPriority(root)
 
+        // Select a photo
+        root.photoButton.setOnClickListener{
+            uploadImage()
+        }
+
+        // Create the event
+        root.createEventButton.setOnClickListener {
+            if (formDataThenPost(root)) return@setOnClickListener
+        }
+        return root
+    }
+
+    private fun getPriority(root: View) {
+        // Priority Spinner
+        val priorityList = resources.getStringArray(R.array.priority_levels)
+        val prioritySpinner = root.findViewById<Spinner>(R.id.prioritySP)
+        var pos: Int
+        prioritySpinner.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_spinner_item,
+            priorityList)
+        prioritySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                pos = position
+                eventPriority = priorityList[pos]
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                pos = 1
+                eventPriority = priorityList[pos]
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDateAndTime(root: View) {
         // Date
         val currentYear = LocalDate.now().year
         val currentMonth = LocalDate.now().monthValue
@@ -74,9 +120,10 @@ class NewEventFragment : Fragment() {
         // Datepicker
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
         datePicker.setOnDateChangedListener { _, year, month, day ->
-            val selectedDate = "${year}-${month+1}-${day}"
+            val selectedDate = "${year}-${month + 1}-${day}"
             eventDate = selectedDate
-            println("User selected eventDate: $eventDate")}
+            println("User selected eventDate: $eventDate")
+        }
 
 
         // Time
@@ -94,84 +141,57 @@ class NewEventFragment : Fragment() {
             eventTime = selectedTime
             println("User selected eventTime: $eventTime")
         }
+    }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun formDataThenPost(root: View): Boolean {
+        val eventSubject = subjectET.text.toString().trim()
+        val eventDateAndTime = eventDate.plus("T").plus(eventTime)
+        val eventPlace = placeET.text.toString().trim()
+        val eventAdvanced = advancedET.text.toString().trim()
 
-        // Priority Spinner
-        val priorityList = resources.getStringArray(R.array.priority_levels)
-        val prioritySpinner = root.findViewById<Spinner>(R.id.prioritySP)
-        var pos: Int
-        prioritySpinner.adapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_item,
-            priorityList)
-        prioritySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long)  {
-                pos = position
-                eventPriority = priorityList[pos]
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                pos = 1
-                eventPriority = priorityList[pos]
-            }
+        if (eventSubject.isEmpty()) {
+            subjectET.error = "Subject is required"
+            subjectET.requestFocus()
+            return true
         }
 
-        // Photo Button
-        root.photoButton.setOnClickListener{
-            uploadImage()
+        if (eventPlace.isEmpty()) {
+            placeET.error = "Place is required"
+            placeET.requestFocus()
+            return true
         }
 
-        // Create Event Button
-        root.createEventButton.setOnClickListener {
 
-            val eventSubject = subjectET.text.toString().trim()
-            val eventPlace = placeET.text.toString().trim()
+        // Final data
+        val subject: RequestBody = eventSubject.toRequestBody(MultipartBody.FORM)
+        val date: RequestBody = eventDateAndTime.toRequestBody(MultipartBody.FORM)
+        val place: RequestBody = eventPlace.toRequestBody(MultipartBody.FORM)
+        val priority: RequestBody = eventPriority.toRequestBody(MultipartBody.FORM)
+        val advanced: RequestBody = eventAdvanced.toRequestBody(MultipartBody.FORM)
 
-            val eventAdvanced = advancedET.text.toString().trim()
+        // Photo
+        if (filePath != null) {
+            val parcelFileDescriptor = requireContext().contentResolver.openFileDescriptor(
+                filePath!!,
+                "r",
+                null) ?: return true
+            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(
+                filePath!!))
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+            val outputStream = FileOutputStream(file)
 
-            if(eventSubject.isEmpty()){
-                subjectET.error = "Subject is required"
-                subjectET.requestFocus()
-                return@setOnClickListener
-            }
+            inputStream.copyTo(outputStream)
+            val requestFile: RequestBody =
+                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            if(eventPlace.isEmpty()){
-                placeET.error = "Place is required"
-                placeET.requestFocus()
-                return@setOnClickListener
-            }
+            picture = createFormData("pic", file.name, requestFile)
 
-            // Photo
-            if (filePath != null) {
-                val parcelFileDescriptor = requireContext().contentResolver.openFileDescriptor(
-                    filePath!!,
-                    "r",
-                    null) ?: return@setOnClickListener
-                val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(
-                    filePath!!))
-                println("file:$file")
-                val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-                val outputStream = FileOutputStream(file)
+        }
 
-                inputStream.copyTo(outputStream)
-                val requestFile: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-
-                picture = createFormData("pic", file.name, requestFile)
-                println("filePart: $picture")
-            }
-
-
-
-            val eventDateAndTime = eventDate.plus("T").plus(eventTime)
-            println("eventDateAndTime: $eventDateAndTime")
-
-            val subject: RequestBody = eventSubject.toRequestBody(MultipartBody.FORM)
-            val date: RequestBody = eventDateAndTime.toRequestBody(MultipartBody.FORM)
-            val place: RequestBody = eventPlace.toRequestBody(MultipartBody.FORM)
-            val priority: RequestBody = eventPriority.toRequestBody(MultipartBody.FORM)
-            val advanced: RequestBody = eventAdvanced.toRequestBody(MultipartBody.FORM)
-
-
-            context?.let {
-                apiClient.getApiService(it).postEvent(subject, date, place, priority, advanced, picture).enqueue(object : Callback<EventResponse> {
+        context?.let {
+            apiClient.getApiService(it).postEvent(subject, date, place, priority, advanced, picture)
+                .enqueue(object : Callback<EventResponse> {
                     override fun onResponse(
                         call: Call<EventResponse>,
                         response: Response<EventResponse>
@@ -179,33 +199,37 @@ class NewEventFragment : Fragment() {
                         when {
                             response.code() == 200 -> {
                                 println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                                println("SUCCESS")
-                                println("eventSubject = $eventSubject")
-                                println("eventDateAndTime = $eventDateAndTime")
-                                println("eventPlace = $eventPlace")
-                                println("eventPriority = $eventPriority")
-                                println("eventAdvanced = $eventAdvanced")
-                                println("pic = $picture")
-                                val message = "Event was created successfully!\nYou can find it in the calendar!"
-                                Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).also { snackbar -> snackbar.setAction("OK") {snackbar.dismiss()} }.show()
-//                                val intent = Intent(context, HomeFragment::class.java)
-//                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                println("[POST] subject = $eventSubject")
+                                println("[POST] date = $eventDateAndTime")
+                                println("[POST] place = $eventPlace")
+                                println("[POST] priority = $eventPriority")
+                                println("[POST] advanced = $eventAdvanced")
+                                println("[POST] pic = $picture")
+                                val message =
+                                    "Event was created successfully!\nYou can find it in the calendar!"
+
+//                                val intent = Intent(context, MainScreen::class.java)
+//                                intent.flags = FLAG_ACTIVITY_CLEAR_TOP
 //                                startActivity(intent)
+                                Snackbar.make(root, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+
                             }
                             response.code() == 400 -> {
                                 println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                                 println("This is not possible")
                                 val message = "Something went terrible wrong ... "
-                                Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE).also { snackbar -> snackbar.setAction("OK") {snackbar.dismiss()} }.show()
+                                Snackbar.make(root, message, Snackbar.LENGTH_LONG)
+                                    .also { snackbar -> snackbar.duration = 5000 }.show()
                             }
                             response.code() == 401 -> {
                                 println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                                println("This is not possible, but in this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
+                                println("This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
                                 println("[MainSettingsScreen] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
                                 sessionManager.deleteTokens()
                                 println("[MainSettingsScreen] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
                                 val intent = Intent(context, LoginScreen::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                             }
                         }
@@ -216,9 +240,8 @@ class NewEventFragment : Fragment() {
 
                     }
                 })
-            }
         }
-        return root
+        return false
     }
 
     private fun uploadImage() {
@@ -226,7 +249,6 @@ class NewEventFragment : Fragment() {
         intent.type = "image/*"
         startActivityForResult(intent, 123)
     }
-
 
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -246,7 +268,6 @@ class NewEventFragment : Fragment() {
         cursor?.use {
             it.moveToFirst()
             name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-            println("name: $name")
         }
         return name
     }
