@@ -4,15 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.LoginScreen
-import com.example.myimportantday.MainScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.AccountInfoResponse
-import com.example.myimportantday.models.LoginResponse
 import com.example.myimportantday.models.LogoutResponse
 import retrofit2.Call
 import retrofit2.Callback

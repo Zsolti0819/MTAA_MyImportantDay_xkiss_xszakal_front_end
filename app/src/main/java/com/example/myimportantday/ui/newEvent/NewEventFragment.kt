@@ -199,12 +199,8 @@ class NewEventFragment : Fragment() {
                                 println("[POST] priority = $eventPriority")
                                 println("[POST] advanced = $eventAdvanced")
                                 println("[POST] pic = $picture")
-                                val message =
-                                    "Event was created successfully!\nYou can find it in the calendar!"
+                                val message = "Event was created successfully!\nYou can find it in the calendar!"
 
-//                                val intent = Intent(context, MainScreen::class.java)
-//                                intent.flags = FLAG_ACTIVITY_CLEAR_TOP
-//                                startActivity(intent)
                                 Snackbar.make(root, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
 
                             }
@@ -212,8 +208,7 @@ class NewEventFragment : Fragment() {
                                 println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                                 println("This is not possible")
                                 val message = "Something went terrible wrong ... "
-                                Snackbar.make(root, message, Snackbar.LENGTH_LONG)
-                                    .also { snackbar -> snackbar.duration = 5000 }.show()
+                                Snackbar.make(root, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                             }
                             response.code() == 401 -> {
                                 println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
