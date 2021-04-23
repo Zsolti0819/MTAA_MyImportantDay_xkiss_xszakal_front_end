@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -11,72 +12,87 @@
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:src="@drawable/ic_baseline_calendar_today_24"
+        android:layout_gravity="center"
         app:tint="@color/holo_blue_dark"
+        android:src="@drawable/ic_baseline_calendar_today_24"
         android:contentDescription="@string/there_is_a_calendar" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="80dp"
-        android:text="@string/welcome_to_my_important_day"
+        android:layout_gravity="center"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:textColor="@color/holo_blue_dark"
-        android:textSize="25sp" />
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:text="@string/welcome_to_my_important_day" />
 
     <EditText
         android:id="@+id/usernameET"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
-        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:drawableLeft="@drawable/ic_baseline_account_box_24"
+        android:drawableStart="@drawable/ic_baseline_account_box_24"
         android:drawablePadding="16dp"
         android:hint="@string/prompt_username"
+        android:autofillHints="username"
         android:background="@color/light_grey"
-        android:inputType="text"
-        android:drawableStart="@drawable/ic_baseline_account_box_24"
         android:selectAllOnFocus="true"
-        android:autofillHints="" />
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/emailET"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
         android:drawableStart="@drawable/ic_baseline_alternate_email_24"
         android:drawablePadding="16dp"
         android:hint="@string/e_mail"
+        android:autofillHints="e-mail"
         android:background="@color/light_grey"
-        android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
-        android:autofillHints="" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/passwordET"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
         android:hint="@string/prompt_password"
         android:background="@color/light_grey"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:autofillHints="password"
         android:selectAllOnFocus="true"
-        android:autofillHints="" />
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/password2ET"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawablePadding="16dp"
+        android:hint="@string/prompt_password_again"
+        android:background="@color/light_grey"
+        android:autofillHints="password"
+        android:selectAllOnFocus="true"
+        android:inputType="textPassword"
+        android:imeOptions="actionDone"/>
 
     <Button
         android:id="@+id/registerBTN"
@@ -94,13 +110,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:text="@string/already_have_an_account"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="@string/already_have_an_account"
+        />
 
     <Button
         android:id="@+id/loginBTN"
@@ -113,14 +130,7 @@
         android:textColor="@color/white"
         android:backgroundTint="@color/holo_blue_dark"
         android:text="@string/action_sign_in"
-        tools:targetApi="lollipop" />
+        tools:targetApi="lollipop"
+        />
 
-    <ProgressBar
-        android:id="@+id/loadingPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:visibility="gone" />
 </LinearLayout>

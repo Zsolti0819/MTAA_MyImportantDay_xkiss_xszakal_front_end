@@ -2,11 +2,13 @@ package com.example.myimportantday
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.text.TextUtils
+import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.RegisterResponse
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_register_screen.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +34,7 @@ class RegisterScreen : AppCompatActivity() {
             val username = usernameET.text.toString().trim()
             val email = emailET.text.toString().trim()
             val password = passwordET.text.toString().trim()
+            val password2 = password2ET.text.toString().trim()
 
             if(username.isEmpty()){
                 usernameET.error = "Username is required"
@@ -45,9 +48,27 @@ class RegisterScreen : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (!isValidEmail(email)) {
+                emailET.error = "E-mail is not valid"
+                emailET.requestFocus()
+                return@setOnClickListener
+            }
+
             if(password.isEmpty()){
                 passwordET.error = "Password is required"
                 passwordET.requestFocus()
+                return@setOnClickListener
+            }
+
+            if(password2.isEmpty()){
+                password2ET.error = "Password is required"
+                password2ET.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (password != password2) {
+                passwordET.error = "The passwords doesn't match"
+                password2ET.error = "The passwords doesn't match"
                 return@setOnClickListener
             }
 
@@ -62,17 +83,21 @@ class RegisterScreen : AppCompatActivity() {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                     if (response.code() == 200) {
                         println("[RegisterScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-
                         val intent = Intent(applicationContext, LoginScreen::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     }
                     else if (response.code() == 400) {
                         println("[RegisterScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                        Toast.makeText(applicationContext,"Wrong username or e-mail", Toast.LENGTH_LONG).show()
+                        val message = "User with this e-mail address and/or username already exists."
+                        Snackbar.make(it, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                     }
                 }
             })
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }

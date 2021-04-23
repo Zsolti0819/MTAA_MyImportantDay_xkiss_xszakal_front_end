@@ -3,7 +3,6 @@ package com.example.myimportantday.ui.newEvent
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,16 +13,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.replace
 import com.example.myimportantday.LoginScreen
-import com.example.myimportantday.MainScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
-import com.example.myimportantday.ui.home.HomeFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_logged_in_screen.*
 import kotlinx.android.synthetic.main.fragment_new_event.*

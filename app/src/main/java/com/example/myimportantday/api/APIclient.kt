@@ -20,7 +20,6 @@ class APIclient {
 
             apiService = retrofit.create(APIservice::class.java)
         }
-
         return apiService
     }
 
@@ -29,5 +28,4 @@ class APIclient {
             .addInterceptor(AuthInterceptor(context))
             .build()
     }
-
 }

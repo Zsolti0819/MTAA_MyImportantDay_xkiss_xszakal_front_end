@@ -11,18 +11,12 @@ class SessionManager (context: Context) {
         const val USER_TOKEN = "user_token"
     }
 
-    /**
-     * Function to save auth token
-     */
     fun saveAuthToken(token: String) {
         val editor = prefs.edit()
         editor.putString(USER_TOKEN, token)
         editor.apply()
     }
 
-    /**
-     * Function to fetch auth token
-     */
     fun fetchAuthToken(): String? {
         return prefs.getString(USER_TOKEN, null)
     }
@@ -31,6 +25,5 @@ class SessionManager (context: Context) {
         val editor = prefs.edit()
         editor.clear()
         editor.apply()
-
     }
 }
