@@ -40,13 +40,12 @@ class NewEventFragment : Fragment() {
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
     private lateinit var filePath: Uri
-    private var code: Int = 0
     private lateinit var eventDate: String
     private lateinit var eventTime: String
     lateinit var eventPriority: String
+    private var code: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,6 +65,7 @@ class NewEventFragment : Fragment() {
         eventDate = currentDate
         println("Untouched eventDate: $eventDate")
 
+        // Datepicker
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
         datePicker.setOnDateChangedListener { _, year, month, day ->
             val selectedDate = "${year}-${month+1}-${day}"
@@ -74,30 +74,28 @@ class NewEventFragment : Fragment() {
 
 
         // Time
-        val currentHour = LocalTime.now().hour.toString()
-        val currentMinutes = LocalTime.now().minute.toString()
-        eventTime = currentHour.plus(":").plus(currentMinutes)
+        val currentHour = LocalTime.now().hour
+        val currentMinutes = LocalTime.now().minute
+        val currentTime = "${currentHour}:${currentMinutes}"
+        eventTime = currentTime
         println("Untouched eventTime: $eventTime")
 
-
+        // Timepicker
         val timePicker = root.findViewById<TimePicker>(R.id.timePicker)
         timePicker.setIs24HourView(true)
         timePicker.setOnTimeChangedListener { _, hour, minute ->
-            val eventHour: String = hour.toString()
-            val eventMinute: String = minute.toString()
-            eventTime = eventHour.plus(":").plus(eventMinute)
+            val selectedTime = "${hour}:${minute}"
+            eventTime = selectedTime
             println("User selected eventTime: $eventTime")
         }
 
 
-        // Priority
+        // Priority Spinner
         val priorityList = resources.getStringArray(R.array.priority_levels)
-        val prioritySP = root.findViewById<Spinner>(R.id.prioritySP)
+        val prioritySpinner = root.findViewById<Spinner>(R.id.prioritySP)
         var pos: Int
-        prioritySP.adapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_item,
-            priorityList)
-        prioritySP.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        prioritySpinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorityList)
+        prioritySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long)  {
                 pos = position
                 eventPriority = priorityList[pos]
@@ -108,13 +106,14 @@ class NewEventFragment : Fragment() {
             }
         }
 
-        // Photo
+        // Photo Button
         root.photoButton.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 123)
         }
 
+        // Create Event Button
         root.createEventButton.setOnClickListener {
 
             val eventSubject = subjectET.text.toString().trim()
@@ -135,11 +134,8 @@ class NewEventFragment : Fragment() {
             }
 
             // Photo
-            val parcelFileDescriptor =
-                requireContext().contentResolver.openFileDescriptor(filePath, "r", null)
-                    ?: return@setOnClickListener
-            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(
-                filePath))
+            val parcelFileDescriptor = requireContext().contentResolver.openFileDescriptor(filePath, "r", null) ?: return@setOnClickListener
+            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(filePath))
             println("file:$file")
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
             val outputStream = FileOutputStream(file)
@@ -147,8 +143,8 @@ class NewEventFragment : Fragment() {
             inputStream.copyTo(outputStream)
             val requestFile: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-            val filePart: MultipartBody.Part = createFormData("pic", file.name, requestFile)
-            println(filePart)
+            val pic: MultipartBody.Part = createFormData("pic", file.name, requestFile)
+            println("filePart: $pic")
 
             val eventDateAndTime = eventDate.plus("T").plus(eventTime)
             println("eventDateAndTime: $eventDateAndTime")
@@ -166,19 +162,19 @@ class NewEventFragment : Fragment() {
                     place,
                     priority,
                     advanced,
-                    filePart).enqueue(object : Callback<EventResponse> {
+                    pic).enqueue(object : Callback<EventResponse> {
                     override fun onResponse(
                         call: Call<EventResponse>,
                         response: Response<EventResponse>
                     ) {
                         println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                         println("SUCCESS")
-                        println(eventSubject)
-                        println(eventDateAndTime)
-                        println(eventPlace)
-                        println(eventPriority)
-                        println(eventAdvanced)
-                        println(filePart)
+                        println("eventSubject = $eventSubject")
+                        println("eventDateAndTime = $eventDateAndTime")
+                        println("eventPlace = $eventPlace")
+                        println("eventPriority = $eventPriority")
+                        println("eventAdvanced = $eventAdvanced")
+                        println("pic = $pic")
 
                     }
 
@@ -205,7 +201,6 @@ class NewEventFragment : Fragment() {
     }
 
     private fun ContentResolver.getFileName(uri: Uri): String {
-
         var name = ""
         val cursor = query(uri, null, null, null, null)
         cursor?.use {
