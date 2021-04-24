@@ -21,12 +21,28 @@ interface APIservice {
     fun logout():Call<LogoutResponse>
 
     @ExperimentalMultiplatform
+    @GET("events/{id}/")
+    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
+
+    @ExperimentalMultiplatform
     @GET("events/{date}/")
     fun showAllEvents(@Path("date") date: String):Call<EventList>
 
     @ExperimentalMultiplatform
     @GET("account/")
     fun showAccountInfo():Call<AccountInfoResponse>
+
+    @FormUrlEncoded
+    @PUT("events/{id}/update/")
+    fun updateEvent(@Path("id") id: Int,
+                    @Field ("subject") subject: RequestBody,
+                    @Field ("date") date: RequestBody,
+                    @Field ("place") place: RequestBody,
+                    @Field ("priority") priority: RequestBody,
+                    @Field ("advanced") advanced: RequestBody):Call<EventResponse>
+
+    @DELETE("events/{id}/delete/")
+    fun deleteEvent(@Path("id") id: Int):Call<DeleteResponse>
 
     @FormUrlEncoded
     @PUT("account/username/")
