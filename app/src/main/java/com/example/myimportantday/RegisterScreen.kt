@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.RegisterResponse
+import com.example.myimportantday.tools.PopUpWindow
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_register_screen.*
 import retrofit2.Call
@@ -83,14 +84,24 @@ class RegisterScreen : AppCompatActivity() {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                     if (response.code() == 200) {
                         println("[RegisterScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                        val intent = Intent(applicationContext, LoginScreen::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        finish()
+                        val message = "$username, you have successfully registered. You are being redirected to the login screen."
+                        val intent = Intent(applicationContext, PopUpWindow::class.java)
+                        intent.putExtra("popuptitle", "Successful registration")
+                        intent.putExtra("popuptext", message)
+                        intent.putExtra("popupbtn", "OK")
+                        intent.putExtra("nextActivity", "LoginScreen")
                         startActivity(intent)
+
                     }
                     else if (response.code() == 400) {
                         println("[RegisterScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                         val message = "User with this e-mail address and/or username already exists."
-                        Snackbar.make(it, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                        val intent = Intent(applicationContext, PopUpWindow::class.java)
+                        intent.putExtra("popuptitle", "INFO")
+                        intent.putExtra("popuptext", message)
+                        intent.putExtra("popupbtn", "OK")
+                        startActivity(intent)
                     }
                 }
             })

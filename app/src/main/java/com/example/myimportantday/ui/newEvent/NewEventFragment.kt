@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.LoginScreen
+import com.example.myimportantday.tools.PopUpWindow
 import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
@@ -199,9 +200,14 @@ class NewEventFragment : Fragment() {
                                 println("[POST] priority = $eventPriority")
                                 println("[POST] advanced = $eventAdvanced")
                                 println("[POST] pic = $picture")
-                                val message = "Event was created successfully!\nYou can find it in the calendar!"
+                                val message = "The event '$eventSubject' was successfully created. You can find it in the calendar under the date $eventDate or by viewing all your events at the Home screen!"
 
-                                Snackbar.make(root, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                                val intent = Intent(context, PopUpWindow::class.java)
+                                intent.putExtra("popuptitle", "Success")
+                                intent.putExtra("popuptext", message)
+                                intent.putExtra("popupbtn", "OK")
+                                intent.putExtra("nextActivity", "MainScreen")
+                                startActivity(intent)
 
                             }
                             response.code() == 400 -> {
