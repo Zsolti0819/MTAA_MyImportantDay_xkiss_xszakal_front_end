@@ -1,11 +1,13 @@
 package com.example.myimportantday
 
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.Constants
 import com.example.myimportantday.api.SessionManager
@@ -14,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_edit_event.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class EditEvent : AppCompatActivity() {
@@ -27,7 +32,7 @@ class EditEvent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_event)
 
-        val eventID:Int = intent.getIntExtra("id",0)
+        val eventID:Int = intent.getIntExtra("id", 0)
 
         apiClient = APIclient()
         sessionManager = SessionManager(this)
@@ -38,20 +43,31 @@ class EditEvent : AppCompatActivity() {
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 println("[EditEvent] Failure. Error" + t.stackTrace)
             }
+
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 println("[EditEvent] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                 val event = response.body()
+                //val datetime:Date = event?.date.
+                val inputFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+                val date: LocalDate = LocalDate.parse(event?.date, inputFormatter)
+                val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
 
+                //set subject
                 subjectET.setText(event?.subject)
-                timePicker.setIs24HourView(true) // 24 órás formátum
-
+                //set time
+                timePicker.setIs24HourView(true)
+                timePicker.hour = time.hour
+                timePicker.minute = time.minute
+                //set date
                 val calendar = Calendar.getInstance()
-                datePicker.minDate = calendar.timeInMillis // ez csak arra van, hogy ne tudjon "tegnapra" létrehozni eventet
-
+                datePicker.minDate = calendar.timeInMillis
+                datePicker.init(date.year, date.monthValue, date.dayOfMonth, null)
+                //set place
                 placeET.setText(event?.place)
-
-                showPrioritySpinner(response.body()) // ugyan az mint a create eventben, csak alapból állítsa be arra a priorityt, ami az előző eventnek volt. Azért teszteld majd le te is.
-
+                //set priority
+                showPrioritySpinner(response.body())
+                //set advanced
                 advancedET.setText(event?.advanced)
                 val path = Constants.BASE_URL.plus(event?.pic)
 
@@ -64,7 +80,9 @@ class EditEvent : AppCompatActivity() {
         val priorityList = resources.getStringArray(R.array.priority_levels)
         val prioritySpinner = findViewById<Spinner>(R.id.prioritySP)
         var pos: Int
-        prioritySpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, priorityList)
+        prioritySpinner.adapter = ArrayAdapter(this,
+            android.R.layout.simple_spinner_item,
+            priorityList)
 
         when {
             event?.priority.equals("Normal") -> prioritySP.setSelection(0)
