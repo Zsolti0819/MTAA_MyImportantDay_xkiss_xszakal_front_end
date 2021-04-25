@@ -20,10 +20,6 @@ interface APIservice {
     @POST("logout/")
     fun logout():Call<LogoutResponse>
 
-    @ExperimentalMultiplatform
-    @GET("events/{id}/")
-    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
-
     @FormUrlEncoded
     @PUT("events/{id}/update/")
     fun updateEvent(@Path("id") id: Int,
@@ -38,9 +34,12 @@ interface APIservice {
     fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
 
     @ExperimentalMultiplatform
+    @GET("events/{id}/")
+    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
+
+    @ExperimentalMultiplatform
     @GET("events/{date}/")
     fun showAllEvents(@Path("date") date: String):Call<EventList>
-
 
     @ExperimentalMultiplatform
     @GET("account/")

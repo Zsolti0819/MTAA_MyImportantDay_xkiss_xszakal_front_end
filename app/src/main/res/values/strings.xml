@@ -70,6 +70,9 @@
     <string name="desc">Description</string>
     <string name="status">Status</string>
     <string name="ok">OK</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="show_all_events">Show all events</string>
 
 
     <string-array name="priority_levels">

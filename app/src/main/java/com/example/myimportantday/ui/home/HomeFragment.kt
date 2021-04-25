@@ -1,8 +1,10 @@
 package com.example.myimportantday.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
+import com.example.myimportantday.SingleEvent
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
@@ -24,6 +27,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var apiClient: APIclient
     private lateinit var sessionManager: SessionManager
+    lateinit var ids:Array<String?>
+    var idEvent:Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMultiplatform
@@ -89,10 +94,33 @@ class HomeFragment : Fragment() {
                         for (i: Int in eventList.events.indices)
                             pics[i] = eventList.events[i].pic
 
-                        val adapter = EventListAdapter(context!!, subjects, dates, places, priorities, advances, pics)
+                        ids = arrayOfNulls<String>(eventList.events.size)
+                        for (i: Int in eventList.events.indices)
+                            ids[i] = (eventList.events[i].id).toString()
+
+                        val adapter = EventListAdapter(context!!,
+                            subjects,
+                            dates,
+                            places,
+                            priorities,
+                            advances,
+                            pics,
+                            ids)
 
                         val listView = root.findViewById<ListView>(R.id.listView)
                         listView.adapter = adapter
+                        if(eventList.events.isNotEmpty())
+                            listView.setOnItemClickListener { _, _, position, _ ->
+
+                                val idOfSelectedItem = ids!![position]
+                                Log.d("NUMBER: ", "" + idOfSelectedItem)
+
+                                idEvent = idOfSelectedItem!!.toInt()
+
+                                val intent = Intent(requireContext(), SingleEvent::class.java)
+                                intent.putExtra("id", idEvent);
+                                startActivity(intent)
+                            }
                     }
                 }
             })
