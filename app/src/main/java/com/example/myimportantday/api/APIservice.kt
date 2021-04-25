@@ -20,16 +20,6 @@ interface APIservice {
     @POST("logout/")
     fun logout():Call<LogoutResponse>
 
-    @FormUrlEncoded
-    @PUT("events/{id}/update/")
-    fun updateEvent(@Path("id") id: Int,
-                    @Part ("subject") subject: RequestBody,
-                    @Part ("date") date: RequestBody,
-                    @Part ("place") place: RequestBody,
-                    @Part ("priority") priority: RequestBody,
-                    @Part ("advanced") advanced: RequestBody,
-                    @Part pic: MultipartBody.Part?):Call<EventResponse>
-
     @DELETE("events/{id}/delete/")
     fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
 
@@ -71,6 +61,18 @@ interface APIservice {
         @Part ("advanced") advanced: RequestBody,
         @Part pic: MultipartBody.Part?
     ):Call<EventResponse>
+
+    @Multipart
+    @PUT("events/{id}/update/")
+    fun updateEvent(@Path("id") id: Int,
+                    @Part ("subject") subject: RequestBody,
+                    @Part ("date") date: RequestBody,
+                    @Part ("place") place: RequestBody,
+                    @Part ("priority") priority: RequestBody,
+                    @Part ("advanced") advanced: RequestBody,
+                    @Part pic: MultipartBody.Part?
+                    ):Call<EventResponse>
+
 
 
 
