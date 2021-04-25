@@ -114,6 +114,8 @@ class NewEventFragment : Fragment() {
 
         // Datepicker
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
+        val calendar = Calendar.getInstance()
+        datePicker.minDate = calendar.timeInMillis
         datePicker.setOnDateChangedListener { _, year, month, day ->
             val selectedDate = "${year}-${month + 1}-${day}"
             eventDate = selectedDate
@@ -200,7 +202,7 @@ class NewEventFragment : Fragment() {
                                 println("[POST] priority = $eventPriority")
                                 println("[POST] advanced = $eventAdvanced")
                                 println("[POST] pic = $picture")
-                                val message = "The event '$eventSubject' was successfully created. You can find it in the calendar under the date $eventDate or by viewing all your events at the Home screen!"
+                                val message = "The event '$eventSubject' was successfully created. You can find it in the calendar under $eventDate or by viewing all your events at the Home screen!"
 
                                 val intent = Intent(context, PopUpWindow::class.java)
                                 intent.putExtra("popuptitle", "Success")
@@ -250,10 +252,16 @@ class NewEventFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 123) {
             code = requestCode
-            filePath = data!!.data!!
-            println("data.data: " + data.data)
-
-            photoButton.text = "A photo was selected"
+            if (data != null) {
+                filePath = data.data!!
+                println("filePath: " + data.data)
+                photoButton.text = "A photo was selected."
+            }
+            else {
+                filePath = null
+                println("filePath: " + data?.data)
+                photoButton.text = "You decided to not select a photo."
+            }
         }
     }
 

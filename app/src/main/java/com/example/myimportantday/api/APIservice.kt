@@ -21,8 +21,26 @@ interface APIservice {
     fun logout():Call<LogoutResponse>
 
     @ExperimentalMultiplatform
+    @GET("events/{id}/")
+    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
+
+    @FormUrlEncoded
+    @PUT("events/{id}/update/")
+    fun updateEvent(@Path("id") id: Int,
+                    @Part ("subject") subject: RequestBody,
+                    @Part ("date") date: RequestBody,
+                    @Part ("place") place: RequestBody,
+                    @Part ("priority") priority: RequestBody,
+                    @Part ("advanced") advanced: RequestBody,
+                    @Part pic: MultipartBody.Part?):Call<EventResponse>
+
+    @DELETE("events/{id}/delete/")
+    fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
+
+    @ExperimentalMultiplatform
     @GET("events/{date}/")
     fun showAllEvents(@Path("date") date: String):Call<EventList>
+
 
     @ExperimentalMultiplatform
     @GET("account/")
