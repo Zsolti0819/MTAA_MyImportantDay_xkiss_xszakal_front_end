@@ -82,21 +82,14 @@ class AllEventScreen : AppCompatActivity() {
                     listView.setOnItemClickListener { _, _, position, _ ->
 
                         val idOfSelectedItem = ids[position]
-                        Log.d("NUMBER: ", "" + idOfSelectedItem)
-
+                        println("Selected event ID: $idOfSelectedItem")
                         idEvent = idOfSelectedItem!!.toInt()
 
                         val intent = Intent(this@AllEventScreen, SingleEventScreen::class.java)
                         intent.putExtra("id", idEvent);
                         startActivity(intent)
                     }
-
             }
         })
-
-
     }
-
-
-
 }
