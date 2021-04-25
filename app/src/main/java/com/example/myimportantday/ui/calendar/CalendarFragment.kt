@@ -13,12 +13,11 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
-import com.example.myimportantday.SingleEvent
+import com.example.myimportantday.SingleEventScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
 import com.example.myimportantday.tools.EventListAdapter
-import kotlinx.android.synthetic.main.fragment_calendar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +46,7 @@ class CalendarFragment : Fragment() {
         val currentDateTime = LocalDate.now()
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEventsByDate(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }
@@ -99,12 +98,12 @@ class CalendarFragment : Fragment() {
                     if(eventList.events.isNotEmpty())
                         listView.setOnItemClickListener { _, _, position, _ ->
 
-                            val idOfSelectedItem = ids!![position]
+                            val idOfSelectedItem = ids[position]
                             Log.d("NUMBER: ", "" + idOfSelectedItem)
 
                             idEvent = idOfSelectedItem!!.toInt()
 
-                            val intent = Intent(requireContext(), SingleEvent::class.java)
+                            val intent = Intent(requireContext(), SingleEventScreen::class.java)
                             intent.putExtra("id", idEvent);
                             startActivity(intent)
                         }
@@ -117,7 +116,7 @@ class CalendarFragment : Fragment() {
         calendar.setOnDateChangeListener { _, year, month, day ->
             val selectedDate = "$year-${month+1}-$day"
             context?.let {
-                apiClient.getApiService(it).showAllEvents(selectedDate).enqueue(object : Callback<EventList> {
+                apiClient.getApiService(it).showAllEventsByDate(selectedDate).enqueue(object : Callback<EventList> {
                     override fun onFailure(call: Call<EventList>, t: Throwable) {
                         println("[CalendarFragment] FAILURE. Is the server running?" + t.stackTrace)
                     }
@@ -168,12 +167,12 @@ class CalendarFragment : Fragment() {
                         if(eventList.events.isNotEmpty())
                             listView.setOnItemClickListener { _, _, position, _ ->
 
-                                val idOfSelectedItem = ids!![position]
+                                val idOfSelectedItem = ids[position]
                                 Log.d("NUMBER: ", "" + idOfSelectedItem)
 
                                 idEvent = idOfSelectedItem!!.toInt()
 
-                                val intent = Intent(requireContext(), SingleEvent::class.java)
+                                val intent = Intent(requireContext(), SingleEventScreen::class.java)
                                 intent.putExtra("id", idEvent);
                                 startActivity(intent)
                             }
@@ -183,7 +182,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        showAllButton.setOnClickListener {  }
+        //showAllButton.setOnClickListener {  }
         return root
     }
 }

@@ -12,7 +12,7 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
-import com.example.myimportantday.SingleEvent
+import com.example.myimportantday.SingleEventScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         println("[HomeFragment] INFO Current date: $currentDateTime")
 
         context?.let {
-            apiClient.getApiService(it).showAllEvents(currentDateTime.toString()).enqueue(object : Callback<EventList> {
+            apiClient.getApiService(it).showAllEventsByDate(currentDateTime.toString()).enqueue(object : Callback<EventList> {
                 override fun onFailure(call: Call<EventList>, t: Throwable) {
                     println("[HomeFragment] FAILURE. Is the server running?" + t.stackTrace)
                 }
@@ -112,12 +112,12 @@ class HomeFragment : Fragment() {
                         if(eventList.events.isNotEmpty())
                             listView.setOnItemClickListener { _, _, position, _ ->
 
-                                val idOfSelectedItem = ids!![position]
+                                val idOfSelectedItem = ids[position]
                                 Log.d("NUMBER: ", "" + idOfSelectedItem)
 
                                 idEvent = idOfSelectedItem!!.toInt()
 
-                                val intent = Intent(requireContext(), SingleEvent::class.java)
+                                val intent = Intent(requireContext(), SingleEventScreen::class.java)
                                 intent.putExtra("id", idEvent);
                                 startActivity(intent)
                             }

@@ -49,7 +49,8 @@ class EventListAdapter(
         advanced = thisView.findViewById(R.id.advanced)
         pic = thisView.findViewById(R.id.pic)
         subject.text = subjects[position]
-        date.text = dates[position]
+        val dateWithRemovedT = dates[position]?.replace("T", "  ").toString()
+        date.text = dateWithRemovedT.dropLast(3)
         place.text = places[position]
         priority.text = priorities[position]
         advanced.text = advances[position]

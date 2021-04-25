@@ -38,8 +38,8 @@ interface APIservice {
     fun showEventByID(@Path("id") id: Int):Call<EventResponse>
 
     @ExperimentalMultiplatform
-    @GET("events/{date}/")
-    fun showAllEvents(@Path("date") date: String):Call<EventList>
+    @GET("events/by_date/{date}/")
+    fun showAllEventsByDate(@Path("date") date: String):Call<EventList>
 
     @ExperimentalMultiplatform
     @GET("account/")

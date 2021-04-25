@@ -202,7 +202,7 @@ class NewEventFragment : Fragment() {
                                 println("[POST] priority = $eventPriority")
                                 println("[POST] advanced = $eventAdvanced")
                                 println("[POST] pic = $picture")
-                                val message = "The event '$eventSubject' was successfully created. You can find it in the calendar under $eventDate or by viewing all your events at the Home screen!"
+                                val message = "The event '$eventSubject' was successfully created.\n You can find it in the calendar under $eventDate or by viewing all your events."
 
                                 val intent = Intent(context, PopUpWindow::class.java)
                                 intent.putExtra("popuptitle", "Success")

@@ -1,136 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginScreen"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="80dp"
-        android:layout_gravity="center"
-        app:tint="@color/holo_blue_dark"
-        android:src="@drawable/ic_baseline_calendar_today_24"
-        android:contentDescription="@string/there_is_a_calendar" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="@color/holo_blue_dark"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:text="@string/welcome_to_my_important_day" />
+        tools:context=".LoginScreen"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/usernameET"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:drawableLeft="@drawable/ic_baseline_account_box_24"
-        android:drawableStart="@drawable/ic_baseline_account_box_24"
-        android:drawablePadding="16dp"
-        android:hint="@string/prompt_username"
-        android:autofillHints="username"
-        android:background="@color/light_grey"
-        android:selectAllOnFocus="true"
-        android:inputType="text" />
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center"
+            app:tint="@color/holo_blue_dark"
+            android:src="@drawable/ic_baseline_calendar_today_24"
+            android:contentDescription="@string/there_is_a_calendar" />
 
-    <EditText
-        android:id="@+id/emailET"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
-        android:drawableStart="@drawable/ic_baseline_alternate_email_24"
-        android:drawablePadding="16dp"
-        android:hint="@string/e_mail"
-        android:autofillHints="e-mail"
-        android:background="@color/light_grey"
-        android:selectAllOnFocus="true"
-        android:inputType="textEmailAddress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/holo_blue_dark"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:text="@string/welcome_to_my_important_day" />
 
-    <EditText
-        android:id="@+id/passwordET"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:drawableLeft="@drawable/ic_baseline_lock_24"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
-        android:drawablePadding="16dp"
-        android:hint="@string/prompt_password"
-        android:autofillHints="password"
-        android:background="@color/light_grey"
-        android:selectAllOnFocus="true"
-        android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/usernameET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:drawableLeft="@drawable/ic_baseline_account_box_24"
+            android:drawableStart="@drawable/ic_baseline_account_box_24"
+            android:drawablePadding="16dp"
+            android:hint="@string/prompt_username"
+            android:autofillHints="username"
+            android:background="@color/light_grey"
+            android:selectAllOnFocus="true"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/password2ET"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:drawableLeft="@drawable/ic_baseline_lock_24"
-        android:drawableStart="@drawable/ic_baseline_lock_24"
-        android:drawablePadding="16dp"
-        android:hint="@string/prompt_password_again"
-        android:autofillHints="password"
-        android:background="@color/light_grey"
-        android:selectAllOnFocus="true"
-        android:inputType="textPassword"
-        android:imeOptions="actionDone"/>
+        <EditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:drawableLeft="@drawable/ic_baseline_alternate_email_24"
+            android:drawableStart="@drawable/ic_baseline_alternate_email_24"
+            android:drawablePadding="16dp"
+            android:hint="@string/e_mail"
+            android:autofillHints="e-mail"
+            android:background="@color/light_grey"
+            android:selectAllOnFocus="true"
+            android:inputType="textEmailAddress" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/action_register"
-        tools:targetApi="lollipop" />
+        <EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:drawablePadding="16dp"
+            android:hint="@string/prompt_password"
+            android:autofillHints="password"
+            android:background="@color/light_grey"
+            android:selectAllOnFocus="true"
+            android:inputType="textPassword"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:text="@string/already_have_an_account"
-        />
+        <EditText
+            android:id="@+id/password2ET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:drawableLeft="@drawable/ic_baseline_lock_24"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:drawablePadding="16dp"
+            android:hint="@string/prompt_password_again"
+            android:autofillHints="password"
+            android:background="@color/light_grey"
+            android:selectAllOnFocus="true"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"/>
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/action_sign_in"
-        tools:targetApi="lollipop"
-        />
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/action_register"
+            tools:targetApi="lollipop" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/already_have_an_account"
+            />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/action_sign_in"
+            tools:targetApi="lollipop"
+            />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,93 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".settings.MainSettingsScreen"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/ic_baseline_settings_24"
-        app:tint="@color/holo_blue_dark"
-        android:contentDescription="@string/there_is_a_lock" />
-
-    <TextView
-        android:id="@+id/usernameET"
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="65dp"
-        android:text="@string/your_username_here"
-        android:textStyle="bold"
-        android:textColor="@color/holo_blue_dark"
-        android:textSize="25sp" />
+        tools:context=".settings.MainSettingsScreen"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/emailET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/your_e_mail_address_here"
-        android:textStyle="bold"
-        android:textColor="@color/holo_blue_dark"
-        android:textSize="25sp" />
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_baseline_settings_24"
+            app:tint="@color/holo_blue_dark"
+            android:contentDescription="@string/there_is_a_lock" />
 
-    <Button
-        android:id="@+id/changeUsernameBTN"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/change_username"
-        tools:targetApi="lollipop" />
+        <TextView
+            android:id="@+id/usernameET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="65dp"
+            android:text="@string/your_username_here"
+            android:textStyle="bold"
+            android:textColor="@color/holo_blue_dark"
+            android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/changeEmailBTN"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/change_e_mail_address"
-        tools:targetApi="lollipop" />
+        <TextView
+            android:id="@+id/emailET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/your_e_mail_address_here"
+            android:textStyle="bold"
+            android:textColor="@color/holo_blue_dark"
+            android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/changePasswordBTN"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/holo_blue_dark"
-        android:text="@string/change_password"
-        tools:targetApi="lollipop" />
+        <Button
+            android:id="@+id/changeUsernameBTN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/change_username"
+            tools:targetApi="lollipop" />
 
-    <Button
-        android:id="@+id/logoutBTN"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/light_grey"
-        android:text="@string/log_out"
-        tools:targetApi="lollipop" />
+        <Button
+            android:id="@+id/changeEmailBTN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/change_e_mail_address"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/changePasswordBTN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/holo_blue_dark"
+            android:text="@string/change_password"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/logoutBTN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textStyle="bold"
+            android:textColor="@color/grey"
+            android:backgroundTint="@color/light_grey"
+            android:text="@string/log_out"
+            tools:targetApi="lollipop" />
 
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
