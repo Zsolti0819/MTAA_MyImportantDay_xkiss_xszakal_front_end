@@ -177,7 +177,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:textStyle="bold"
-            android:text="@string/create_event"
+            android:text="@string/save_event"
             tools:targetApi="lollipop" />
 
     </LinearLayout>

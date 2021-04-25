@@ -34,6 +34,10 @@ interface APIservice {
     fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
 
     @ExperimentalMultiplatform
+    @GET("events/all/")
+    fun showAllEvents():Call<EventList>
+
+    @ExperimentalMultiplatform
     @GET("events/{id}/")
     fun showEventByID(@Path("id") id: Int):Call<EventResponse>
 

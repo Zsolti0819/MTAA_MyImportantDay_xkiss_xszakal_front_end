@@ -13,9 +13,10 @@
         android:theme="@style/Theme.MyImportantDay"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".EditEvent"></activity>
+        <activity android:name=".AllEventScreen"></activity>
+        <activity android:name=".EditEvent" />
         <activity android:name=".SingleEventScreen" />
-        <activity android:name=".tools.PopUpWindow"></activity>
+        <activity android:name=".tools.PopUpWindow" />
         <activity android:name=".RegisterScreen" />
         <activity android:name=".MainScreen" />
         <activity

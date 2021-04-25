@@ -12,12 +12,15 @@ import android.widget.CalendarView
 import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.myimportantday.AllEventScreen
 import com.example.myimportantday.R
 import com.example.myimportantday.SingleEventScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
 import com.example.myimportantday.tools.EventListAdapter
+import kotlinx.android.synthetic.main.fragment_calendar.*
+import kotlinx.android.synthetic.main.fragment_calendar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,6 +47,11 @@ class CalendarFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
 
         val currentDateTime = LocalDate.now()
+
+        root.showAllButton.setOnClickListener{
+            val intent = Intent(requireContext(), AllEventScreen::class.java)
+            startActivity(intent)
+        }
 
         context?.let {
             apiClient.getApiService(it).showAllEventsByDate(currentDateTime.format(DateTimeFormatter.ISO_DATE)).enqueue(object : Callback<EventList> {
@@ -182,7 +190,6 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        //showAllButton.setOnClickListener {  }
         return root
     }
 }
