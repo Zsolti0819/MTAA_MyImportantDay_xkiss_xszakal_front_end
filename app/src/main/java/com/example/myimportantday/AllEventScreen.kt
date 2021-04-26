@@ -27,6 +27,9 @@ class AllEventScreen : AppCompatActivity() {
         apiClient = APIclient()
         sessionManager = SessionManager(this)
 
+        val actionBar = supportActionBar
+        actionBar!!.title = "All events"
+
         apiClient.getApiService(this).showAllEvents().enqueue(object :
             Callback<EventList> {
             override fun onFailure(call: Call<EventList>, t: Throwable) {

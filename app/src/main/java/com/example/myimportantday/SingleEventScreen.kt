@@ -39,6 +39,9 @@ class SingleEventScreen : AppCompatActivity() {
                 println("[SingleEventScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                 event = response.body()
 
+                val actionBar = supportActionBar
+                actionBar!!.title = event?.subject
+
                 subject.text = event?.subject
                 val dateWithRemovedT = event?.date?.replace("T", "  ").toString()
                 date.text = dateWithRemovedT.dropLast(3)

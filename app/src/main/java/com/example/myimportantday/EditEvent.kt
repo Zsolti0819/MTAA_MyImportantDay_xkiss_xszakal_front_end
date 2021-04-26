@@ -54,6 +54,8 @@ class EditEvent : AppCompatActivity() {
         apiClient = APIclient()
         sessionManager = SessionManager(this)
 
+        val actionBar = supportActionBar
+        actionBar!!.title = "Edit event"
 
         apiClient.getApiService(this).showEventByID(eventID).enqueue(object :
             Callback<EventResponse> {
