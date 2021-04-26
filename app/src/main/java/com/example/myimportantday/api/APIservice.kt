@@ -20,24 +20,13 @@ interface APIservice {
     @POST("logout/")
     fun logout():Call<LogoutResponse>
 
-    @DELETE("events/{id}/delete/")
-    fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
-
-    @ExperimentalMultiplatform
-    @GET("events/all/")
-    fun showAllEvents():Call<EventList>
-
-    @ExperimentalMultiplatform
-    @GET("events/{id}/")
-    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
-
-    @ExperimentalMultiplatform
-    @GET("events/by_date/{date}/")
-    fun showAllEventsByDate(@Path("date") date: String):Call<EventList>
-
     @ExperimentalMultiplatform
     @GET("account/")
     fun showAccountInfo():Call<AccountInfoResponse>
+
+    @FormUrlEncoded
+    @PUT("account/password/")
+    fun updatePassword(@Field("old_password") old_password:String, @Field("new_password") new_password: String):Call<ChangePasswordResponse>
 
     @FormUrlEncoded
     @PUT("account/username/")
@@ -46,10 +35,6 @@ interface APIservice {
     @FormUrlEncoded
     @PUT("account/email/")
     fun updateEmailAddress(@Field("email") email:String):Call<ChangeEmailAddressResponse>
-
-    @FormUrlEncoded
-    @PUT("account/password/")
-    fun updatePassword(@Field("old_password") old_password:String, @Field("new_password") new_password: String):Call<ChangePasswordResponse>
 
     @Multipart
     @POST("events/")
@@ -62,6 +47,18 @@ interface APIservice {
         @Part pic: MultipartBody.Part?
     ):Call<EventResponse>
 
+    @ExperimentalMultiplatform
+    @GET("events/all/")
+    fun showAllEvents():Call<EventList>
+
+    @ExperimentalMultiplatform
+    @GET("events/by_date/{date}/")
+    fun showAllEventsByDate(@Path("date") date: String):Call<EventList>
+
+    @ExperimentalMultiplatform
+    @GET("events/{id}/")
+    fun showEventByID(@Path("id") id: Int):Call<EventResponse>
+
     @Multipart
     @PUT("events/{id}/update/")
     fun updateEvent(@Path("id") id: Int,
@@ -71,9 +68,9 @@ interface APIservice {
                     @Part ("priority") priority: RequestBody,
                     @Part ("advanced") advanced: RequestBody,
                     @Part pic: MultipartBody.Part?
-                    ):Call<EventResponse>
+    ):Call<EventResponse>
 
-
-
+    @DELETE("events/{id}/delete/")
+    fun deleteEvent(@Path("id") id: Int):Call<DeleteEventResponse>
 
 }

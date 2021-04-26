@@ -27,14 +27,14 @@ class PopUpWindow : AppCompatActivity() {
 
         // Get the data
         val bundle = intent.extras
-        val popupTitle = bundle?.getString("popuptitle", "Title") ?: ""
-        val popupText = bundle?.getString("popuptext", "Text") ?: ""
-        val popupButton = bundle?.getString("popupbtn", "Button") ?: ""
+        val popUpTitle = bundle?.getString("popuptitle", "Title") ?: ""
+        val popUpText = bundle?.getString("popuptext", "Text") ?: ""
+        val popUpButton = bundle?.getString("popupbtn", "Button") ?: ""
         val nextActivity = bundle?.getString("nextActivity","")
 
-        popup_window_title.text = popupTitle
-        popup_window_text.text = popupText
-        popup_window_button.text = popupButton
+        popup_window_title.text = popUpTitle
+        popup_window_text.text = popUpText
+        popup_window_button.text = popUpButton
 
         val alpha = 100
         val alphaColor = ColorUtils.setAlphaComponent(Color.parseColor("#000000"), alpha)

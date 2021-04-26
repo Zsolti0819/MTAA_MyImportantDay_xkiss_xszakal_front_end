@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,7 @@ class HomeFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
 
         val currentDateTime = LocalDate.now()
-        println("[HomeFragment] INFO Current date: $currentDateTime")
+        println("[HomeFragment] INFO. Current date: $currentDateTime")
 
         context?.let {
             apiClient.getApiService(it).showAllEventsByDate(currentDateTime.toString()).enqueue(object : Callback<EventList> {
@@ -94,7 +93,7 @@ class HomeFragment : Fragment() {
                         for (i: Int in eventList.events.indices)
                             pics[i] = eventList.events[i].pic
 
-                        ids = arrayOfNulls<String>(eventList.events.size)
+                        ids = arrayOfNulls(eventList.events.size)
                         for (i: Int in eventList.events.indices)
                             ids[i] = (eventList.events[i].id).toString()
 
@@ -112,13 +111,12 @@ class HomeFragment : Fragment() {
                         if(eventList.events.isNotEmpty())
                             listView.setOnItemClickListener { _, _, position, _ ->
 
-                                val idOfSelectedItem = ids[position]
-                                Log.d("NUMBER: ", "" + idOfSelectedItem)
-
-                                idEvent = idOfSelectedItem!!.toInt()
+                                val idOfTheSelectedEvent = ids[position]
+                                println("[HomeFragment] INFO. Selected event from the list: $idOfTheSelectedEvent")
+                                idEvent = idOfTheSelectedEvent!!.toInt()
 
                                 val intent = Intent(requireContext(), SingleEventScreen::class.java)
-                                intent.putExtra("id", idEvent);
+                                intent.putExtra("id", idEvent)
                                 startActivity(intent)
                             }
                     }

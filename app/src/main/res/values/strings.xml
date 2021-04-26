@@ -75,6 +75,7 @@
     <string name="show_all_events">Show all events</string>
     <string name="all_your_events">All Your Events</string>
     <string name="save_event">Save Event</string>
+    <string name="edit_photo">Edit photo</string>
 
 
     <string-array name="priority_levels">

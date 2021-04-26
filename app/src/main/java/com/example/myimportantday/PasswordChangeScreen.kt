@@ -1,10 +1,9 @@
-package com.example.myimportantday.settings
+package com.example.myimportantday
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangePasswordResponse
@@ -47,23 +46,23 @@ class PasswordChangeScreen : AppCompatActivity() {
 
             apiClient.getApiService(this).updatePassword(oldPassword, newPassword).enqueue(object : Callback<ChangePasswordResponse> {
                 override fun onFailure(call: Call<ChangePasswordResponse>, t: Throwable) {
-                    println("[PassworChangeActivity] FAILURE. Is the server running?" + t.stackTrace)
+                    println("[PasswordChangeActivity] FAILURE. Is the server running?" + t.stackTrace)
                 }
 
                 override fun onResponse(call: Call<ChangePasswordResponse>, response: Response<ChangePasswordResponse>) {
                     when {
                         response.code() == 200 -> {
-                            println("[PassworChangeActivity] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[PasswordChangeActivity] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                             val intent = Intent(this@PasswordChangeScreen, MainSettingsScreen::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
                         }
                         response.code() == 400 -> {
-                            println("[PassworChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[PasswordChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                             Toast.makeText(this@PasswordChangeScreen, "Your old password is not correct!",Toast.LENGTH_LONG).show()
                         }
                         response.code() == 401 -> {
-                            println("[PassworChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[PasswordChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                         }
                     }
                 }

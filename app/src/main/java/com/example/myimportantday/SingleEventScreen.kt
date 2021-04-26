@@ -1,10 +1,8 @@
 package com.example.myimportantday
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.Constants
 import com.example.myimportantday.api.SessionManager
@@ -21,6 +19,7 @@ class SingleEventScreen : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
+    private var event: EventResponse? = null
 
     @ExperimentalMultiplatform
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,22 +33,21 @@ class SingleEventScreen : AppCompatActivity() {
 
         apiClient.getApiService(this).showEventByID(eventID).enqueue(object : Callback<EventResponse>{
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                println("[SingleEventScreen] Failure. Error" + t.stackTrace)
+                println("[SingleEventScreen] FAILURE. Is the server running?" + t.stackTrace)
             }
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 println("[SingleEventScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                val event = response.body()
-
+                event = response.body()
 
                 subject.text = event?.subject
-                date.text = event?.date
+                val dateWithRemovedT = event?.date?.replace("T", "  ").toString()
+                date.text = dateWithRemovedT.dropLast(3)
                 place.text = event?.place
                 priority.text = event?.priority
                 advanced.text = event?.advanced
                 val path = Constants.BASE_URL.plus(event?.pic)
                 Picasso.with(this@SingleEventScreen).load(path).into(pic)
             }
-
         })
 
 
@@ -70,7 +68,7 @@ class SingleEventScreen : AppCompatActivity() {
                     call: Call<DeleteEventResponse>,
                     response: Response<DeleteEventResponse>
                 ) {
-                    val message = "The event was successfully deleted! \n You are being redirected to the Home screen."
+                    val message = "The event '${event?.subject}' was successfully deleted! \n You are being redirected to the Home screen."
                     val intent = Intent(applicationContext, PopUpWindow::class.java)
                     intent.putExtra("popuptitle", "Success")
                     intent.putExtra("popuptext", message)

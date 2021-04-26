@@ -9,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.myimportantday.settings.MainSettingsScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainScreen : AppCompatActivity() {

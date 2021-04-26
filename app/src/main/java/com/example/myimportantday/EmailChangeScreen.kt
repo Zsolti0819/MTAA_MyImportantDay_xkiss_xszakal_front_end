@@ -1,10 +1,9 @@
-package com.example.myimportantday.settings
+package com.example.myimportantday
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangeEmailAddressResponse

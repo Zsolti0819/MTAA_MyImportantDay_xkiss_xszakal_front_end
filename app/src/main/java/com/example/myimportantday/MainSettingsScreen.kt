@@ -1,12 +1,10 @@
-package com.example.myimportantday.settings
+package com.example.myimportantday
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myimportantday.LoginScreen
-import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.AccountInfoResponse

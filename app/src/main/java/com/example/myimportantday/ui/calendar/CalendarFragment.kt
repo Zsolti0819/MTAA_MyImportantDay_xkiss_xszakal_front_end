@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
 import com.example.myimportantday.tools.EventListAdapter
-import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.fragment_calendar.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -88,7 +86,7 @@ class CalendarFragment : Fragment() {
                     for (i: Int in eventList.events.indices)
                         pics[i] = eventList.events[i].pic
 
-                    ids = arrayOfNulls<String>(eventList.events.size)
+                    ids = arrayOfNulls(eventList.events.size)
                     for (i: Int in eventList.events.indices)
                         ids[i] = (eventList.events[i].id).toString()
 
@@ -106,13 +104,13 @@ class CalendarFragment : Fragment() {
                     if(eventList.events.isNotEmpty())
                         listView.setOnItemClickListener { _, _, position, _ ->
 
-                            val idOfSelectedItem = ids[position]
-                            Log.d("NUMBER: ", "" + idOfSelectedItem)
+                            val idOfTheSelectedEvent = ids[position]
+                            println("[CalendarFragment] INFO. Selected event from the list: $idOfTheSelectedEvent")
 
-                            idEvent = idOfSelectedItem!!.toInt()
+                            idEvent = idOfTheSelectedEvent!!.toInt()
 
                             val intent = Intent(requireContext(), SingleEventScreen::class.java)
-                            intent.putExtra("id", idEvent);
+                            intent.putExtra("id", idEvent)
                             startActivity(intent)
                         }
 
@@ -157,7 +155,7 @@ class CalendarFragment : Fragment() {
                         for (i: Int in eventList.events.indices)
                             pics[i] = eventList.events[i].pic
 
-                        ids = arrayOfNulls<String>(eventList.events.size)
+                        ids = arrayOfNulls(eventList.events.size)
                         for (i: Int in eventList.events.indices)
                             ids[i] = (eventList.events[i].id).toString()
 
@@ -175,16 +173,15 @@ class CalendarFragment : Fragment() {
                         if(eventList.events.isNotEmpty())
                             listView.setOnItemClickListener { _, _, position, _ ->
 
-                                val idOfSelectedItem = ids[position]
-                                Log.d("NUMBER: ", "" + idOfSelectedItem)
+                                val idOfTheSelectedEvent = ids[position]
+                                println("[CalendarFragment] INFO. Selected event from the list: $idOfTheSelectedEvent")
 
-                                idEvent = idOfSelectedItem!!.toInt()
+                                idEvent = idOfTheSelectedEvent!!.toInt()
 
                                 val intent = Intent(requireContext(), SingleEventScreen::class.java)
-                                intent.putExtra("id", idEvent);
+                                intent.putExtra("id", idEvent)
                                 startActivity(intent)
                             }
-
                     }
                 })
             }

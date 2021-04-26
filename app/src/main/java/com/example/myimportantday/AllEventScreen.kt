@@ -3,9 +3,6 @@ package com.example.myimportantday
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ListView
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
@@ -81,9 +78,9 @@ class AllEventScreen : AppCompatActivity() {
                 if(eventList.events.isNotEmpty())
                     listView.setOnItemClickListener { _, _, position, _ ->
 
-                        val idOfSelectedItem = ids[position]
-                        println("Selected event ID: $idOfSelectedItem")
-                        idEvent = idOfSelectedItem!!.toInt()
+                        val idOfTheSelectedEvent = ids[position]
+                        println("[AllEventScreen] INFO. Selected event from the list: $idOfTheSelectedEvent")
+                        idEvent = idOfTheSelectedEvent!!.toInt()
 
                         val intent = Intent(this@AllEventScreen, SingleEventScreen::class.java)
                         intent.putExtra("id", idEvent);

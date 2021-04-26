@@ -1,29 +1,25 @@
 package com.example.myimportantday
 
+import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.api.APIclient
-import com.example.myimportantday.api.Constants
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.PopUpWindow
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_edit_event.*
-import kotlinx.android.synthetic.main.activity_edit_event.advancedET
-import kotlinx.android.synthetic.main.activity_edit_event.datePicker
-import kotlinx.android.synthetic.main.activity_edit_event.placeET
-import kotlinx.android.synthetic.main.activity_edit_event.prioritySP
-import kotlinx.android.synthetic.main.activity_edit_event.subjectET
-import kotlinx.android.synthetic.main.activity_edit_event.timePicker
-import kotlinx.android.synthetic.main.fragment_new_event.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +39,9 @@ class EditEvent : AppCompatActivity() {
     lateinit var eventPriority: String
     private lateinit var eventDate: String
     private lateinit var eventTime: String
+    private var filePath: Uri? = null
+    private var picture: MultipartBody.Part? = null
+    private var code: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMultiplatform
@@ -59,63 +58,68 @@ class EditEvent : AppCompatActivity() {
         apiClient.getApiService(this).showEventByID(eventID).enqueue(object :
             Callback<EventResponse> {
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                println("[EditEvent] Failure. Error" + t.stackTrace)
+                println("[EditEvent] FAILURE. Error" + t.stackTrace)
             }
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 println("[EditEvent] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                 val event = response.body()
-                //val datetime:Date = event?.date.
+
+                // Subject
+                subjectET.setText(event?.subject)
+
+                // Date
                 val inputFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
                 val date: LocalDate = LocalDate.parse(event?.date, inputFormatter)
-                val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
-                val outputFormatterDate: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy")
+                val outputFormatterDate: DateTimeFormatter = DateTimeFormatter.ofPattern("yyy-MM-dd")
                 val formattedDate: String = outputFormatterDate.format(date)
+                println("[EditEvent] INFO. Retrieved date from the event: $formattedDate")
+                eventDate = formattedDate
+
+                val calendar = Calendar.getInstance()
+                datePicker.minDate = calendar.timeInMillis
+                datePicker.init(date.year, date.monthValue-1, date.dayOfMonth) { _, year, month, day ->
+                    val selectedDate = "${year}-${month + 1}-${day}"
+                    eventDate = selectedDate
+                    println("[EditEvent] INFO. User selected eventDate: $eventDate")
+                }
+
+                // Time
+                val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
                 val outputFormatterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
                 val formattedTime: String = outputFormatterTime.format(time)
+                println("[EditEvent] INFO. Retrieved time from the event: $formattedTime")
+                eventTime = formattedTime
 
-
-                //set subject
-                subjectET.setText(event?.subject)
-                //set time
                 timePicker.setIs24HourView(true)
                 timePicker.hour = time.hour
                 timePicker.minute = time.minute
-                //set date
-                val calendar = Calendar.getInstance()
-                datePicker.minDate = calendar.timeInMillis
-                datePicker.init(date.year, date.monthValue, date.dayOfMonth, null)
-                eventDate = formattedDate
-                eventTime = formattedTime
-                //set place
-                placeET.setText(event?.place)
-                //set priority
-                showPrioritySpinner(response.body())
-                //set advanced
-                advancedET.setText(event?.advanced)
-                val path = Constants.BASE_URL.plus(event?.pic)
+                timePicker.setOnTimeChangedListener { _, hour, minute ->
+                    val selectedTime = "${hour}:${minute}"
+                    eventTime = selectedTime
+                    println("[EditEvent] INFO. User selected eventTime: $eventTime")
+                }
 
+                // Place
+                placeET.setText(event?.place)
+
+                // Priority
+                showPrioritySpinner(response.body())
+
+                // Advanced
+                advancedET.setText(event?.advanced)
+
+                // Photo
+                photoButton.setOnClickListener{
+                    uploadImage()
+                }
             }
         })
 
         saveEdit.setOnClickListener{
-            if (formDataThenPost(this,eventID)) return@setOnClickListener
+            if (formDataThenPUT(eventID)) return@setOnClickListener
         }
-
-        // Datepicker
-        datePicker.setOnDateChangedListener { _, year, month, day ->
-            val selectedDate = "${year}-${month + 1}-${day}"
-            eventDate = selectedDate
-            println("User selected eventDate: $eventDate")
-        }
-        // Timepicker
-        timePicker.setOnTimeChangedListener { _, hour, minute ->
-            val selectedTime = "${hour}:${minute}"
-            eventTime = selectedTime
-            println("User selected eventTime: $eventTime")
-        }
-
     }
 
     private fun showPrioritySpinner(event: EventResponse?) {
@@ -154,23 +158,8 @@ class EditEvent : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDateAndTime(root: View) {
-        // Datepicker
-        datePicker.setOnDateChangedListener { _, year, month, day ->
-            val selectedDate = "${year}-${month + 1}-${day}"
-            eventDate = selectedDate
-            println("User selected eventDate: $eventDate")
-        }
-        // Timepicker
-        timePicker.setOnTimeChangedListener { _, hour, minute ->
-            val selectedTime = "${hour}:${minute}"
-            eventTime = selectedTime
-            println("User selected eventTime: $eventTime")
-        }
-    }
-
-    private fun formDataThenPost(root: EditEvent, eventID:Int): Boolean {
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun formDataThenPUT(eventID:Int): Boolean {
         val eventSubject = subjectET.text.toString().trim()
         val eventDateAndTime = eventDate.plus("T").plus(eventTime)
         val eventPlace = placeET.text.toString().trim()
@@ -196,9 +185,28 @@ class EditEvent : AppCompatActivity() {
         val priority: RequestBody = eventPriority.toRequestBody(MultipartBody.FORM)
         val advanced: RequestBody = eventAdvanced.toRequestBody(MultipartBody.FORM)
 
+        // Photo
+        if (filePath != null) {
+            val parcelFileDescriptor = contentResolver.openFileDescriptor(
+                filePath!!,
+                "r",
+                null) ?: return true
+            val file = File(cacheDir, contentResolver.getFileName(
+                filePath!!))
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+            val outputStream = FileOutputStream(file)
+
+            inputStream.copyTo(outputStream)
+            val requestFile: RequestBody =
+                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            picture = MultipartBody.Part.createFormData("pic", file.name, requestFile)
+
+        }
 
 
-        apiClient.getApiService(this).updateEvent(eventID,subject, date, place, priority, advanced,null)
+
+        apiClient.getApiService(this).updateEvent(eventID,subject, date, place, priority, advanced,picture)
             .enqueue(object : Callback<EventResponse> {
                 override fun onResponse(
                     call: Call<EventResponse>,
@@ -206,31 +214,31 @@ class EditEvent : AppCompatActivity() {
                 ) {
                     when {
                         response.code() == 200 -> {
-                            println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[POST] subject = $eventSubject")
-                            println("[POST] date = $eventDateAndTime")
-                            println("[POST] place = $eventPlace")
-                            println("[POST] priority = $eventPriority")
-                            println("[POST] advanced = $eventAdvanced")
-                            val message = "The event '$eventSubject' was successfully created.\n You can find it in the calendar under $eventDate or by viewing all your events."
+                            println("[EditEvent] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[EditEvent] [PUT] subject = $eventSubject")
+                            println("[EditEvent] [PUT] date = $eventDateAndTime")
+                            println("[EditEvent] [PUT] place = $eventPlace")
+                            println("[EditEvent] [PUT] priority = $eventPriority")
+                            println("[EditEvent] [PUT] advanced = $eventAdvanced")
+                            val message = "The event '$eventSubject' was successfully updated.\n You can find it in the calendar under $eventDate or by viewing all your events."
 
-//                            val intent = Intent(this@EditEvent, PopUpWindow::class.java)
-//                            intent.putExtra("popuptitle", "Success")
-//                            intent.putExtra("popuptext", message)
-//                            intent.putExtra("popupbtn", "OK")
-//                            intent.putExtra("nextActivity", "MainScreen")
-//                            startActivity(intent)
+                            val intent = Intent(this@EditEvent, PopUpWindow::class.java)
+                            intent.putExtra("popuptitle", "Success")
+                            intent.putExtra("popuptext", message)
+                            intent.putExtra("popupbtn", "OK")
+                            intent.putExtra("nextActivity", "MainScreen")
+                            startActivity(intent)
 
                         }
                         response.code() == 400 -> {
                             println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("This is not possible")
-                            val message = "Something went terrible wrong ... "
-//                            Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            println("[EditEvent] INFO. This is not possible")
+                            // val message = "Something went terrible wrong ... "
+                            // Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                         }
                         response.code() == 401 -> {
                             println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
+                            println("[EditEvent] INFO.This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
                             println("[EditEvent] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
                             sessionManager.deleteTokens()
                             println("[EditEvent] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
@@ -241,9 +249,9 @@ class EditEvent : AppCompatActivity() {
                         }
                         response.code() == 404 -> {
                             println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("This is not possible")
-                            val message = "Something went terrible wrong ... "
-//                            Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            println("[EditEvent] INFO.This is not possible")
+                            // val message = "Something went terrible wrong ... "
+                            // Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                         }
                     }
                 }
@@ -254,6 +262,40 @@ class EditEvent : AppCompatActivity() {
                 }
             })
         return false
+    }
+
+    private fun ContentResolver.getFileName(uri: Uri): String {
+        var name = ""
+        val cursor = query(uri, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        }
+        return name
+    }
+
+    private fun uploadImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 123)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 123) {
+            code = requestCode
+            if (data != null) {
+                filePath = data.data!!
+                println("[EditEvent] INFO. filePath: " + data.data)
+                photoButton.text = "A photo was selected."
+            }
+            else {
+                filePath = null
+                println("[EditEvent] INFO. filePath: " + data?.data)
+                photoButton.text = "No photo will be added."
+            }
+        }
     }
 
 }

@@ -43,11 +43,11 @@ import java.util.*
 class NewEventFragment : Fragment() {
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
-    private var filePath: Uri? = null
     private lateinit var eventDate: String
     private lateinit var eventTime: String
-    private var picture: MultipartBody.Part? = null
     lateinit var eventPriority: String
+    private var filePath: Uri? = null
+    private var picture: MultipartBody.Part? = null
     private var code: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -61,17 +61,20 @@ class NewEventFragment : Fragment() {
         apiClient = APIclient()
         sessionManager = context?.let { SessionManager(it) }!!
 
+        // Date
         getDateAndTime(root)
+
+        // Place
         getPriority(root)
 
-        // Select a photo
+        // Photo
         root.photoButton.setOnClickListener{
             uploadImage()
         }
 
         // Create the event
         root.createEventButton.setOnClickListener {
-            if (formDataThenPost(root)) return@setOnClickListener
+            if (formDataThenPOST(root)) return@setOnClickListener
         }
         return root
     }
@@ -110,7 +113,7 @@ class NewEventFragment : Fragment() {
         val currentDay = LocalDate.now().dayOfMonth
         val currentDate = "${currentYear}-${currentMonth}-${currentDay}"
         eventDate = currentDate
-        println("Untouched eventDate: $eventDate")
+        println("[NewEventFragment] INFO. Untouched eventDate: $eventDate")
 
         // Datepicker
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
@@ -119,7 +122,7 @@ class NewEventFragment : Fragment() {
         datePicker.setOnDateChangedListener { _, year, month, day ->
             val selectedDate = "${year}-${month + 1}-${day}"
             eventDate = selectedDate
-            println("User selected eventDate: $eventDate")
+            println("[NewEventFragment] INFO. User selected eventDate: $eventDate")
         }
 
 
@@ -128,7 +131,7 @@ class NewEventFragment : Fragment() {
         val currentMinutes = LocalTime.now().minute
         val currentTime = "${currentHour}:${currentMinutes}"
         eventTime = currentTime
-        println("Untouched eventTime: $eventTime")
+        println("[NewEventFragment] INFO. Untouched eventTime: $eventTime")
 
         // Timepicker
         val timePicker = root.findViewById<TimePicker>(R.id.timePicker)
@@ -136,12 +139,12 @@ class NewEventFragment : Fragment() {
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             val selectedTime = "${hour}:${minute}"
             eventTime = selectedTime
-            println("User selected eventTime: $eventTime")
+            println("[NewEventFragment] INFO. User selected eventTime: $eventTime")
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun formDataThenPost(root: View): Boolean {
+    private fun formDataThenPOST(root: View): Boolean {
         val eventSubject = subjectET.text.toString().trim()
         val eventDateAndTime = eventDate.plus("T").plus(eventTime)
         val eventPlace = placeET.text.toString().trim()
@@ -196,12 +199,12 @@ class NewEventFragment : Fragment() {
                         when {
                             response.code() == 200 -> {
                                 println("[NewEventFragment] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                                println("[POST] subject = $eventSubject")
-                                println("[POST] date = $eventDateAndTime")
-                                println("[POST] place = $eventPlace")
-                                println("[POST] priority = $eventPriority")
-                                println("[POST] advanced = $eventAdvanced")
-                                println("[POST] pic = $picture")
+                                println("[NewEventFragment] [POST] subject = $eventSubject")
+                                println("[NewEventFragment] [POST] date = $eventDateAndTime")
+                                println("[NewEventFragment] [POST] place = $eventPlace")
+                                println("[NewEventFragment] [POST] priority = $eventPriority")
+                                println("[NewEventFragment] [POST] advanced = $eventAdvanced")
+                                println("[NewEventFragment] [POST] pic = $picture")
                                 val message = "The event '$eventSubject' was successfully created.\n You can find it in the calendar under $eventDate or by viewing all your events."
 
                                 val intent = Intent(context, PopUpWindow::class.java)
@@ -213,20 +216,19 @@ class NewEventFragment : Fragment() {
 
                             }
                             response.code() == 400 -> {
-                                println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                                println("This is not possible")
+                                println("[NewEventFragment] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("[NewEventFragment] INFO. This is not possible")
                                 val message = "Something went terrible wrong ... "
                                 Snackbar.make(root, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                             }
                             response.code() == 401 -> {
-                                println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                                println("This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
-                                println("[MainSettingsScreen] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
+                                println("[NewEventFragment] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                                println("[NewEventFragment] INFO. This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
+                                println("[NewEventFragment] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
                                 sessionManager.deleteTokens()
-                                println("[MainSettingsScreen] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
+                                println("[NewEventFragment] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
                                 val intent = Intent(context, LoginScreen::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                             }
                         }
@@ -254,12 +256,12 @@ class NewEventFragment : Fragment() {
             code = requestCode
             if (data != null) {
                 filePath = data.data!!
-                println("filePath: " + data.data)
+                println("[NewEventFragment] filePath: " + data.data)
                 photoButton.text = "A photo was selected."
             }
             else {
                 filePath = null
-                println("filePath: " + data?.data)
+                println("[NewEventFragment] filePath: " + data?.data)
                 photoButton.text = "You decided to not select a photo."
             }
         }
