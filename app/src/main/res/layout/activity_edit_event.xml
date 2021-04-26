@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EditEvent">
+    android:layout_height="match_parent">
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".activities.loggedIn.fragments.NewEventFragment">
 
         <ImageView
             android:layout_marginTop="32dp"
@@ -190,7 +190,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:backgroundTint="@color/grey"
-            android:text="@string/edit_photo"
+            android:text="@string/do_you_want_to_add_a_photo"
             tools:ignore="UnusedAttribute" />
 
         <Button

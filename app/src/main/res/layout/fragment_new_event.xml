@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="55dp"
-        tools:context=".ui.newEvent.NewEventFragment">
+        tools:context=".activities.loggedIn.fragments.NewEventFragment">
 
         <ImageView
             android:layout_marginTop="32dp"

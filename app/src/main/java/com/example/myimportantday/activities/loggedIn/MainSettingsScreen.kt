@@ -1,12 +1,17 @@
-package com.example.myimportantday
+package com.example.myimportantday.activities.loggedIn
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myimportantday.R
+import com.example.myimportantday.activities.loggedIn.settings.EmailChangeScreen
+import com.example.myimportantday.activities.loggedIn.settings.PasswordChangeScreen
+import com.example.myimportantday.activities.loggedIn.settings.UsernameChangeScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
+import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.models.AccountInfoResponse
 import com.example.myimportantday.models.LogoutResponse
 import retrofit2.Call
@@ -47,7 +52,7 @@ class MainSettingsScreen : AppCompatActivity() {
                         startActivity(intent)
                     }
 
-                    val changeEmailButton = findViewById<Button>(R.id.changeEmailBTN)
+                    val changeEmailButton = findViewById<Button>(R.id.changeEmailButton)
                     changeEmailButton.setOnClickListener {
                         val intent = Intent(this@MainSettingsScreen, EmailChangeScreen::class.java)
                         startActivity(intent)

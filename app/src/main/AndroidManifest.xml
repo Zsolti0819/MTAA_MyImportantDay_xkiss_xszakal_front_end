@@ -13,17 +13,17 @@
         android:theme="@style/Theme.MyImportantDay"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".AllEventScreen" />
-        <activity android:name=".SingleEventScreen" />
+        <activity android:name="com.example.myimportantday.activities.loggedIn.AllEventScreen" />
+        <activity android:name="com.example.myimportantday.activities.loggedIn.SingleEventScreen" />
         <activity
-            android:name=".EditEvent"
-            android:parentActivityName=".SingleEventScreen"
+            android:name="com.example.myimportantday.activities.loggedIn.EditEventScreen"
+            android:parentActivityName="com.example.myimportantday.activities.loggedIn.SingleEventScreen"
             />
         <activity android:name=".tools.PopUpWindow" />
-        <activity android:name=".RegisterScreen" />
-        <activity android:name=".MainScreen" />
+        <activity android:name=".activities.loggedOut.RegisterScreen" />
+        <activity android:name="com.example.myimportantday.activities.loggedIn.MainScreen" />
         <activity
-            android:name=".LoginScreen"
+            android:name=".activities.loggedOut.LoginScreen"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,17 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainSettingsScreen"
-            android:parentActivityName=".LoginScreen" />
+            android:name="com.example.myimportantday.activities.loggedIn.MainSettingsScreen"
+            android:parentActivityName=".activities.loggedOut.LoginScreen" />
         <activity
-            android:name=".UsernameChangeScreen"
-            android:parentActivityName=".MainSettingsScreen" />
+            android:name="com.example.myimportantday.activities.loggedIn.settings.UsernameChangeScreen"
+            android:parentActivityName="com.example.myimportantday.activities.loggedIn.MainSettingsScreen" />
         <activity
-            android:name=".EmailChangeScreen"
-            android:parentActivityName=".MainSettingsScreen" />
+            android:name="com.example.myimportantday.activities.loggedIn.settings.EmailChangeScreen"
+            android:parentActivityName="com.example.myimportantday.activities.loggedIn.MainSettingsScreen" />
         <activity
-            android:name=".PasswordChangeScreen"
-            android:parentActivityName=".MainSettingsScreen" />
+            android:name="com.example.myimportantday.activities.loggedIn.settings.PasswordChangeScreen"
+            android:parentActivityName="com.example.myimportantday.activities.loggedIn.MainSettingsScreen" />
     </application>
 
 </manifest>

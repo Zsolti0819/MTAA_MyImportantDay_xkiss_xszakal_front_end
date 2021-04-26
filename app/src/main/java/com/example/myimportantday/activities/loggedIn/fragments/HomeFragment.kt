@@ -1,4 +1,4 @@
-package com.example.myimportantday.ui.home
+package com.example.myimportantday.activities.loggedIn.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,12 +11,14 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
-import com.example.myimportantday.SingleEventScreen
+import com.example.myimportantday.activities.loggedIn.AllEventScreen
+import com.example.myimportantday.activities.loggedIn.SingleEventScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.EventList
 import com.example.myimportantday.tools.EventListAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,6 +46,11 @@ class HomeFragment : Fragment() {
 
         val currentDateTime = LocalDate.now()
         println("[HomeFragment] INFO. Current date: $currentDateTime")
+
+        root.showAllButton.setOnClickListener{
+            val intent = Intent(requireContext(), AllEventScreen::class.java)
+            startActivity(intent)
+        }
 
         context?.let {
             apiClient.getApiService(it).showAllEventsByDate(currentDateTime.toString()).enqueue(object : Callback<EventList> {
@@ -103,8 +110,7 @@ class HomeFragment : Fragment() {
                             places,
                             priorities,
                             advances,
-                            pics,
-                            ids)
+                            pics)
 
                         val listView = root.findViewById<ListView>(R.id.listView)
                         listView.adapter = adapter

@@ -20,9 +20,7 @@ class EventListAdapter(
     private val places: Array<String?>,
     private val priorities: Array<String?>,
     private val advances: Array<String?>,
-    private val pics: Array<String?>,
-    ids: Array<String?>
-) : BaseAdapter() {
+    private val pics: Array<String?>) : BaseAdapter() {
     private lateinit var subject: TextView
     private lateinit var date: TextView
     private lateinit var place: TextView

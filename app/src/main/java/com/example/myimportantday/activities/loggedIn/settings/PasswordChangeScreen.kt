@@ -1,9 +1,11 @@
-package com.example.myimportantday
+package com.example.myimportantday.activities.loggedIn.settings
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myimportantday.R
+import com.example.myimportantday.activities.loggedIn.MainSettingsScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangePasswordResponse

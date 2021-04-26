@@ -1,4 +1,4 @@
-package com.example.myimportantday.ui.newEvent
+package com.example.myimportantday.activities.loggedIn.fragments
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -13,15 +13,20 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.example.myimportantday.LoginScreen
-import com.example.myimportantday.tools.PopUpWindow
 import com.example.myimportantday.R
+import com.example.myimportantday.tools.PopUpWindow
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
+import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_edit_event.*
 import kotlinx.android.synthetic.main.fragment_new_event.*
+import kotlinx.android.synthetic.main.fragment_new_event.advancedET
+import kotlinx.android.synthetic.main.fragment_new_event.photoButton
+import kotlinx.android.synthetic.main.fragment_new_event.placeET
+import kotlinx.android.synthetic.main.fragment_new_event.subjectET
 import kotlinx.android.synthetic.main.fragment_new_event.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -119,7 +124,7 @@ class NewEventFragment : Fragment() {
         val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
         val calendar = Calendar.getInstance()
         datePicker.minDate = calendar.timeInMillis
-        datePicker.setOnDateChangedListener { _, year, month, day ->
+        datePicker.init(currentYear, currentMonth-1, currentDay) { _, year, month, day ->
             val selectedDate = "${year}-${month + 1}-${day}"
             eventDate = selectedDate
             println("[NewEventFragment] INFO. User selected eventDate: $eventDate")

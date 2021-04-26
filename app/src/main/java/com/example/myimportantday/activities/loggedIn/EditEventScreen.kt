@@ -1,4 +1,4 @@
-package com.example.myimportantday
+package com.example.myimportantday.activities.loggedIn
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -11,8 +11,10 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
+import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.PopUpWindow
 import kotlinx.android.synthetic.main.activity_edit_event.*
@@ -32,7 +34,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class EditEvent : AppCompatActivity() {
+class EditEventScreen : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
@@ -60,12 +62,12 @@ class EditEvent : AppCompatActivity() {
         apiClient.getApiService(this).showEventByID(eventID).enqueue(object :
             Callback<EventResponse> {
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                println("[EditEvent] FAILURE. Error" + t.stackTrace)
+                println("[EditEventScreen] FAILURE. Error" + t.stackTrace)
             }
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
-                println("[EditEvent] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                println("[EditEventScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
                 val event = response.body()
 
                 // Subject
@@ -76,7 +78,7 @@ class EditEvent : AppCompatActivity() {
                 val date: LocalDate = LocalDate.parse(event?.date, inputFormatter)
                 val outputFormatterDate: DateTimeFormatter = DateTimeFormatter.ofPattern("yyy-MM-dd")
                 val formattedDate: String = outputFormatterDate.format(date)
-                println("[EditEvent] INFO. Retrieved date from the event: $formattedDate")
+                println("[EditEventScreen] INFO. Retrieved date from the event: $formattedDate")
                 eventDate = formattedDate
 
                 val calendar = Calendar.getInstance()
@@ -84,15 +86,16 @@ class EditEvent : AppCompatActivity() {
                 datePicker.init(date.year, date.monthValue-1, date.dayOfMonth) { _, year, month, day ->
                     val selectedDate = "${year}-${month + 1}-${day}"
                     eventDate = selectedDate
-                    println("[EditEvent] INFO. User selected eventDate: $eventDate")
+                    println("[EditEventScreen] INFO. User selected eventDate: $eventDate")
                 }
 
                 // Time
                 val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
                 val outputFormatterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
                 val formattedTime: String = outputFormatterTime.format(time)
-                println("[EditEvent] INFO. Retrieved time from the event: $formattedTime")
+                println("[EditEventScreen] INFO. Retrieved time from the event: $formattedTime")
                 eventTime = formattedTime
+
 
                 timePicker.setIs24HourView(true)
                 timePicker.hour = time.hour
@@ -100,7 +103,7 @@ class EditEvent : AppCompatActivity() {
                 timePicker.setOnTimeChangedListener { _, hour, minute ->
                     val selectedTime = "${hour}:${minute}"
                     eventTime = selectedTime
-                    println("[EditEvent] INFO. User selected eventTime: $eventTime")
+                    println("[EditEventScreen] INFO. User selected eventTime: $eventTime")
                 }
 
                 // Place
@@ -216,15 +219,15 @@ class EditEvent : AppCompatActivity() {
                 ) {
                     when {
                         response.code() == 200 -> {
-                            println("[EditEvent] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEvent] [PUT] subject = $eventSubject")
-                            println("[EditEvent] [PUT] date = $eventDateAndTime")
-                            println("[EditEvent] [PUT] place = $eventPlace")
-                            println("[EditEvent] [PUT] priority = $eventPriority")
-                            println("[EditEvent] [PUT] advanced = $eventAdvanced")
+                            println("[EditEventScreen] SUCCESS. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[EditEventScreen] [PUT] subject = $eventSubject")
+                            println("[EditEventScreen] [PUT] date = $eventDateAndTime")
+                            println("[EditEventScreen] [PUT] place = $eventPlace")
+                            println("[EditEventScreen] [PUT] priority = $eventPriority")
+                            println("[EditEventScreen] [PUT] advanced = $eventAdvanced")
                             val message = "The event '$eventSubject' was successfully updated.\n You can find it in the calendar under $eventDate or by viewing all your events."
 
-                            val intent = Intent(this@EditEvent, PopUpWindow::class.java)
+                            val intent = Intent(this@EditEventScreen, PopUpWindow::class.java)
                             intent.putExtra("popuptitle", "Success")
                             intent.putExtra("popuptext", message)
                             intent.putExtra("popupbtn", "OK")
@@ -233,33 +236,33 @@ class EditEvent : AppCompatActivity() {
 
                         }
                         response.code() == 400 -> {
-                            println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEvent] INFO. This is not possible")
+                            println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[EditEventScreen] INFO. This is not possible")
                             // val message = "Something went terrible wrong ... "
-                            // Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            // Snackbar.make(this@EditEventScreen, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                         }
                         response.code() == 401 -> {
-                            println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEvent] INFO.This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
-                            println("[EditEvent] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
+                            println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[EditEventScreen] INFO.This can only happen if the database was erased, but in the app the sessionManager still stores the user's token. In this case the user is redirected to the Login screen, and the token from the SessionManager will be deleted.")
+                            println("[EditEventScreen] INFO. Pre-Token ${sessionManager.fetchAuthToken()}.")
                             sessionManager.deleteTokens()
-                            println("[EditEvent] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
-                            val intent = Intent(this@EditEvent, LoginScreen::class.java)
+                            println("[EditEventScreen] INFO. Post-Token ${sessionManager.fetchAuthToken()}.")
+                            val intent = Intent(this@EditEventScreen, LoginScreen::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }
                         response.code() == 404 -> {
-                            println("[EditEvent] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEvent] INFO.This is not possible")
+                            println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
+                            println("[EditEventScreen] INFO.This is not possible")
                             // val message = "Something went terrible wrong ... "
-                            // Snackbar.make(this@EditEvent, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            // Snackbar.make(this@EditEventScreen, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                    println("[EditEvent] FAILURE. Token ${sessionManager.fetchAuthToken()}. Error: " + t.message)
+                    println("[EditEventScreen] FAILURE. Token ${sessionManager.fetchAuthToken()}. Error: " + t.message)
 
                 }
             })
@@ -289,12 +292,12 @@ class EditEvent : AppCompatActivity() {
             code = requestCode
             if (data != null) {
                 filePath = data.data!!
-                println("[EditEvent] INFO. filePath: " + data.data)
+                println("[EditEventScreen] INFO. filePath: " + data.data)
                 photoButton.text = "A photo was selected."
             }
             else {
                 filePath = null
-                println("[EditEvent] INFO. filePath: " + data?.data)
+                println("[EditEventScreen] INFO. filePath: " + data?.data)
                 photoButton.text = "No photo will be added."
             }
         }

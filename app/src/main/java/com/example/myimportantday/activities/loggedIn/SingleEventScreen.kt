@@ -1,8 +1,9 @@
-package com.example.myimportantday
+package com.example.myimportantday.activities.loggedIn
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myimportantday.R
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.Constants
 import com.example.myimportantday.api.SessionManager
@@ -55,8 +56,8 @@ class SingleEventScreen : AppCompatActivity() {
 
 
         editButton.setOnClickListener{
-            val intent = Intent(this, EditEvent::class.java)
-            intent.putExtra("id",eventID);
+            val intent = Intent(this, EditEventScreen::class.java)
+            intent.putExtra("id",eventID)
             startActivity(intent)
         }
 
@@ -78,6 +79,7 @@ class SingleEventScreen : AppCompatActivity() {
                     intent.putExtra("popupbtn", "OK")
                     intent.putExtra("nextActivity", "MainScreen")
                     startActivity(intent)
+                    finish()
                 }
             })
         }

@@ -139,9 +139,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-
-<!--            a layout_heigh wrap_content legyen, ne static height,-->
-<!--            mert ha nincs pic akkor nem kell felslegesen helyet kihagyni-->
             <ImageView
                 android:id ="@+id/pic"
                 android:adjustViewBounds="true"

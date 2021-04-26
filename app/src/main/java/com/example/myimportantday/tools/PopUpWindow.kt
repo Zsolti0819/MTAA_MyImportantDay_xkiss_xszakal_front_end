@@ -12,8 +12,8 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
-import com.example.myimportantday.LoginScreen
-import com.example.myimportantday.MainScreen
+import com.example.myimportantday.activities.loggedOut.LoginScreen
+import com.example.myimportantday.activities.loggedIn.MainScreen
 import com.example.myimportantday.R
 import kotlinx.android.synthetic.main.activity_pop_up_window.*
 

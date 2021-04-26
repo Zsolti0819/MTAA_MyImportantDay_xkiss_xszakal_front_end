@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".SingleEventScreen"
+    tools:context=".activities.loggedIn.SingleEventScreen"
     android:orientation="vertical"
     app:cardCornerRadius="15dp">
 

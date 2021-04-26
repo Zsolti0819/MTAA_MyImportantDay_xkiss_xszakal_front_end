@@ -7,7 +7,7 @@
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".UsernameChangeScreen"
+        tools:context=".activities.loggedIn.settings.UsernameChangeScreen"
         android:orientation="vertical">
 
         <ImageView
@@ -33,9 +33,9 @@
             android:id="@+id/username2ET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
             android:drawableLeft="@drawable/ic_baseline_account_box_24"
             android:drawableStart="@drawable/ic_baseline_account_box_24"
             android:drawablePadding="16dp"
