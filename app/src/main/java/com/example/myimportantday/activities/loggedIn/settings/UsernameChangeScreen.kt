@@ -9,6 +9,7 @@ import com.example.myimportantday.activities.loggedIn.MainSettingsScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangeUsernameResponse
+import com.example.myimportantday.tools.PopUpWindow
 import kotlinx.android.synthetic.main.activity_username_change_screen.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,8 +55,11 @@ class UsernameChangeScreen : AppCompatActivity() {
                         }
                         response.code() == 400 -> {
                             println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            Toast.makeText(this@UsernameChangeScreen, "This username is used by someone else.",
-                                Toast.LENGTH_LONG).show()
+                            val message = "This username is used by someone else."
+                            val intent = Intent(this@UsernameChangeScreen, PopUpWindow::class.java)
+                            intent.putExtra("popuptitle", "Error")
+                            intent.putExtra("popuptext", message)
+                            intent.putExtra("popupbtn", "OK")
                         }
                         response.code() == 401 -> {
                             println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())

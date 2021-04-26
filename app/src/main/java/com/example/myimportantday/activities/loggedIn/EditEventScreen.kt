@@ -225,8 +225,8 @@ class EditEventScreen : AppCompatActivity() {
                             println("[EditEventScreen] [PUT] place = $eventPlace")
                             println("[EditEventScreen] [PUT] priority = $eventPriority")
                             println("[EditEventScreen] [PUT] advanced = $eventAdvanced")
-                            val message = "The event '$eventSubject' was successfully updated.\n You can find it in the calendar under $eventDate or by viewing all your events."
 
+                            val message = "The event '$eventSubject' was successfully updated.\n You can find it in the calendar under $eventDate or by viewing all your events."
                             val intent = Intent(this@EditEventScreen, PopUpWindow::class.java)
                             intent.putExtra("popuptitle", "Success")
                             intent.putExtra("popuptext", message)
@@ -237,9 +237,7 @@ class EditEventScreen : AppCompatActivity() {
                         }
                         response.code() == 400 -> {
                             println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEventScreen] INFO. This is not possible")
-                            // val message = "Something went terrible wrong ... "
-                            // Snackbar.make(this@EditEventScreen, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            println("[EditEventScreen] INFO. This is not possible.")
                         }
                         response.code() == 401 -> {
                             println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
@@ -254,9 +252,7 @@ class EditEventScreen : AppCompatActivity() {
                         }
                         response.code() == 404 -> {
                             println("[EditEventScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            println("[EditEventScreen] INFO.This is not possible")
-                            // val message = "Something went terrible wrong ... "
-                            // Snackbar.make(this@EditEventScreen, message, Snackbar.LENGTH_LONG).also { snackbar -> snackbar.duration = 5000 }.show()
+                            println("[EditEventScreen] INFO.This is not possible.")
                         }
                     }
                 }

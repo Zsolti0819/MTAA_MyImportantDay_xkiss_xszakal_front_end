@@ -9,6 +9,7 @@ import com.example.myimportantday.activities.loggedIn.MainSettingsScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangeEmailAddressResponse
+import com.example.myimportantday.tools.PopUpWindow
 import kotlinx.android.synthetic.main.activity_email_change_screen.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +43,7 @@ class EmailChangeScreen : AppCompatActivity() {
 
             apiClient.getApiService(this).updateEmailAddress(email).enqueue(object : Callback<ChangeEmailAddressResponse> {
                 override fun onFailure(call: Call<ChangeEmailAddressResponse>, t: Throwable) {
-                    println("[PassworChangeActivity] FAILURE. Is the server running?" + t.stackTrace)
+                    println("[EmailChangeScreen] FAILURE. Is the server running?" + t.stackTrace)
                 }
 
                 override fun onResponse(call: Call<ChangeEmailAddressResponse>, response: Response<ChangeEmailAddressResponse>) {
@@ -56,7 +57,12 @@ class EmailChangeScreen : AppCompatActivity() {
                         }
                         response.code() == 400 -> {
                             println("[EmailChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            Toast.makeText(applicationContext,"This e-mail address is used by someone else.", Toast.LENGTH_LONG).show()
+                            val message = "This e-mail address is used by someone else."
+                            val intent = Intent(this@EmailChangeScreen, PopUpWindow::class.java)
+                            intent.putExtra("popuptitle", "Error")
+                            intent.putExtra("popuptext", message)
+                            intent.putExtra("popupbtn", "OK")
+                            startActivity(intent)
                         }
                         response.code() == 401 -> {
                             println("[EmailChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())

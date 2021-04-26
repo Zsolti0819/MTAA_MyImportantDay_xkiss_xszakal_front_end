@@ -9,6 +9,7 @@ import com.example.myimportantday.activities.loggedIn.MainSettingsScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
 import com.example.myimportantday.models.ChangePasswordResponse
+import com.example.myimportantday.tools.PopUpWindow
 import kotlinx.android.synthetic.main.activity_password_change_screen.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,7 +62,12 @@ class PasswordChangeScreen : AppCompatActivity() {
                         }
                         response.code() == 400 -> {
                             println("[PasswordChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
-                            Toast.makeText(this@PasswordChangeScreen, "Your old password is not correct!",Toast.LENGTH_LONG).show()
+                            val message = "Your old password is not correct!"
+                            val intent = Intent(this@PasswordChangeScreen, PopUpWindow::class.java)
+                            intent.putExtra("popuptitle", "Error")
+                            intent.putExtra("popuptext", message)
+                            intent.putExtra("popupbtn", "OK")
+                            startActivity(intent)
                         }
                         response.code() == 401 -> {
                             println("[PasswordChangeActivity] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
