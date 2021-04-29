@@ -89,15 +89,16 @@ class EditEventScreen : AppCompatActivity() {
                 eventMonth = date.monthValue.toString()
                 eventDay = date.dayOfMonth.toString()
                 val formattedDate: String = outputFormatterDate.format(date)
-                println("[EditEventScreen] INFO. Retrieved date from the event: $formattedDate")
                 eventDate = formattedDate
 
                 // Time
                 val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
                 val outputFormatterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
                 val formattedTime: String = outputFormatterTime.format(time)
-                println("[EditEventScreen] INFO. Retrieved time from the event: $formattedTime")
                 eventTime = formattedTime
+
+                eventDateAndTime = eventDate.plus("T").plus(eventTime)
+                println("[EditEventScreen] INFO. Retrieved date and time from the event: $eventDateAndTime")
 
                 // Date and time
                 dateAndTimeButton.setOnClickListener { setDateAndTime() }
@@ -140,7 +141,6 @@ class EditEventScreen : AppCompatActivity() {
                     this.set(Calendar.DAY_OF_MONTH, day)
                     eventDay = day.toString()
                     eventDate = "${eventYear}-${eventMonth}-${eventDay}"
-                    println("[NewEventFragment] INFO. eventDate: $eventDate")
                     TimePickerDialog(
                         this@EditEventScreen,
                         0,
@@ -150,9 +150,8 @@ class EditEventScreen : AppCompatActivity() {
                             this.set(Calendar.MINUTE, minute)
                             eventMinute = minute.toString()
                             eventTime = "${eventHour}:${eventMinute}"
-                            println("[NewEventFragment] INFO. eventTime: $eventTime")
                             eventDateAndTime = eventDate.plus("T").plus(eventTime)
-                            println("[NewEventFragment] INFO. eventDateAndTime: $eventDateAndTime")
+                            println("[EditEventScreen] INFO. User selected eventDateAndTime: $eventDateAndTime")
                         },
                         this.get(Calendar.HOUR_OF_DAY),
                         this.get(Calendar.MINUTE),
@@ -239,7 +238,7 @@ class EditEventScreen : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun formDataThenPUT(eventID:Int): Boolean {
         val eventSubject = subjectET.text.toString().trim()
-        val eventDateAndTime = eventDate.plus("T").plus(eventTime)
+        val eventDateAndTime = eventDateAndTime
         val eventPlace = placeET.text.toString().trim()
         val eventAdvanced = advancedET.text.toString().trim()
 
@@ -284,7 +283,7 @@ class EditEventScreen : AppCompatActivity() {
 
 
 
-        apiClient.getApiService(this).updateEvent(eventID,subject, date, place, priority, advanced,picture)
+        apiClient.getApiService(this).updateEvent(eventID,subject, date, place, priority, advanced, picture)
             .enqueue(object : Callback<EventResponse> {
                 override fun onResponse(
                     call: Call<EventResponse>,
