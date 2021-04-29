@@ -77,6 +77,8 @@
     <string name="save_event">Save Event</string>
     <string name="edit_photo">Edit photo</string>
     <string name="log_in">Log in</string>
+    <string name="date_and_time">Date and time</string>
+    <string name="select_date_and_time">Select date and time</string>
 
 
     <string-array name="priority_levels">

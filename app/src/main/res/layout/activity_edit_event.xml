@@ -55,44 +55,24 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:text="@string/date"
+            android:text="@string/date_and_time"
             android:textStyle="bold"
             android:textColor="@color/holo_blue_dark"
             android:textSize="20sp" />
 
-        <DatePicker
-            android:id="@+id/datePicker"
+        <Button
+            android:id="@+id/dateAndTimeButton"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:background="@color/light_grey"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            tools:targetApi="lollipop" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:text="@string/time"
             android:textStyle="bold"
-            android:textColor="@color/holo_blue_dark"
-            android:textSize="20sp" />
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/light_grey"
-            android:timePickerMode="spinner"
-            tools:targetApi="lollipop" />
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:text="@string/select_date_and_time"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,6 +1,8 @@
 package com.example.myimportantday.activities.loggedIn.fragments
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -14,19 +16,13 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.myimportantday.R
-import com.example.myimportantday.tools.PopUpWindow
+import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
-import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.*
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_edit_event.*
 import kotlinx.android.synthetic.main.fragment_new_event.*
-import kotlinx.android.synthetic.main.fragment_new_event.advancedET
-import kotlinx.android.synthetic.main.fragment_new_event.photoButton
-import kotlinx.android.synthetic.main.fragment_new_event.placeET
-import kotlinx.android.synthetic.main.fragment_new_event.subjectET
 import kotlinx.android.synthetic.main.fragment_new_event.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -40,16 +36,22 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
 
 
 class NewEventFragment : Fragment() {
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
+
     private lateinit var eventDate: String
     private lateinit var eventTime: String
+    private var eventDateAndTime: String = "Not set"
+    private lateinit var eventYear: String
+    private lateinit var eventMonth: String
+    private lateinit var eventDay: String
+    private lateinit var eventHour: String
+    private lateinit var eventMinute: String
+
     lateinit var eventPriority: String
     private var filePath: Uri? = null
     private var picture: MultipartBody.Part? = null
@@ -67,10 +69,12 @@ class NewEventFragment : Fragment() {
         sessionManager = context?.let { SessionManager(it) }!!
 
         // Date
-        getDateAndTime(root)
+        root.dateAndTimeButton.setOnClickListener {
+            setDateAndTime()
+        }
 
         // Place
-        getPriority(root)
+        setPriority(root)
 
         // Photo
         root.photoButton.setOnClickListener{
@@ -84,7 +88,50 @@ class NewEventFragment : Fragment() {
         return root
     }
 
-    private fun getPriority(root: View) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setDateAndTime() {
+
+        Calendar.getInstance().apply {
+            this.set(Calendar.SECOND, 0)
+            this.set(Calendar.MILLISECOND, 0)
+            DatePickerDialog(
+                requireContext(),
+                0,
+                { _, year, month, day ->
+                    this.set(Calendar.YEAR, year)
+                    eventYear = year.toString()
+                    this.set(Calendar.MONTH, month)
+                    eventMonth = (month+1).toString()
+                    this.set(Calendar.DAY_OF_MONTH, day)
+                    eventDay = day.toString()
+                    eventDate = "${eventYear}-${eventMonth}-${eventDay}"
+                    println("[NewEventFragment] INFO. eventDate: $eventDate")
+                    TimePickerDialog(
+                        requireContext(),
+                        0,
+                        { _, hour, minute ->
+                            this.set(Calendar.HOUR_OF_DAY, hour)
+                            eventHour = hour.toString()
+                            this.set(Calendar.MINUTE, minute)
+                            eventMinute = minute.toString()
+                            eventTime = "${eventHour}:${eventMinute}"
+                            println("[NewEventFragment] INFO. eventTime: $eventTime")
+                            eventDateAndTime = eventDate.plus("T").plus(eventTime)
+                            println("[NewEventFragment] INFO. eventDateAndTime: $eventDateAndTime")
+                        },
+                        this.get(Calendar.HOUR_OF_DAY),
+                        this.get(Calendar.MINUTE),
+                        true
+                    ).show()
+                },
+                this.get(Calendar.YEAR),
+                this.get(Calendar.MONTH),
+                this.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+    }
+
+    private fun setPriority(root: View) {
         // Priority Spinner
         val priorityList = resources.getStringArray(R.array.priority_levels)
         val prioritySpinner = root.findViewById<Spinner>(R.id.prioritySP)
@@ -110,60 +157,61 @@ class NewEventFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDateAndTime(root: View) {
-        // Date
-        val currentYear = LocalDate.now().year
-        val currentMonth = LocalDate.now().monthValue
-        val currentDay = LocalDate.now().dayOfMonth
-        val currentDate = "${currentYear}-${currentMonth}-${currentDay}"
-        eventDate = currentDate
-        println("[NewEventFragment] INFO. Untouched eventDate: $eventDate")
+    private fun uploadImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 123)
+    }
 
-        // Datepicker
-        val datePicker = root.findViewById<DatePicker>(R.id.datePicker)
-        val calendar = Calendar.getInstance()
-        datePicker.minDate = calendar.timeInMillis
-        datePicker.init(currentYear, currentMonth-1, currentDay) { _, year, month, day ->
-            val selectedDate = "${year}-${month + 1}-${day}"
-            eventDate = selectedDate
-            println("[NewEventFragment] INFO. User selected eventDate: $eventDate")
+    private fun ContentResolver.getFileName(uri: Uri): String {
+        var name = ""
+        val cursor = query(uri, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
         }
+        return name
+    }
 
-
-        // Time
-        val currentHour = LocalTime.now().hour
-        val currentMinutes = LocalTime.now().minute
-        val currentTime = "${currentHour}:${currentMinutes}"
-        eventTime = currentTime
-        println("[NewEventFragment] INFO. Untouched eventTime: $eventTime")
-
-        // Timepicker
-        val timePicker = root.findViewById<TimePicker>(R.id.timePicker)
-        timePicker.setIs24HourView(true)
-        timePicker.setOnTimeChangedListener { _, hour, minute ->
-            val selectedTime = "${hour}:${minute}"
-            eventTime = selectedTime
-            println("[NewEventFragment] INFO. User selected eventTime: $eventTime")
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 123) {
+            code = requestCode
+            if (data != null) {
+                filePath = data.data!!
+                println("[NewEventFragment] filePath: " + data.data)
+                photoButton.text = "A photo was selected."
+            }
+            else {
+                filePath = null
+                println("[NewEventFragment] filePath: " + data?.data)
+                photoButton.text = "You decided to not select a photo."
+            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun formDataThenPOST(root: View): Boolean {
         val eventSubject = subjectET.text.toString().trim()
-        val eventDateAndTime = eventDate.plus("T").plus(eventTime)
+        val eventDateAndTime = eventDateAndTime
         val eventPlace = placeET.text.toString().trim()
         val eventAdvanced = advancedET.text.toString().trim()
 
         if (eventSubject.isEmpty()) {
-            subjectET.error = "Subject is required"
+            subjectET.error = "Required"
             subjectET.requestFocus()
             return true
         }
 
         if (eventPlace.isEmpty()) {
-            placeET.error = "Place is required"
+            placeET.error = "Required"
             placeET.requestFocus()
+            return true
+        }
+
+        if(eventDateAndTime == "Not set"){
+            dateAndTimeButton.error = "Required"
             return true
         }
 
@@ -247,41 +295,5 @@ class NewEventFragment : Fragment() {
         }
         return false
     }
-
-    private fun uploadImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 123)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
-            code = requestCode
-            if (data != null) {
-                filePath = data.data!!
-                println("[NewEventFragment] filePath: " + data.data)
-                photoButton.text = "A photo was selected."
-            }
-            else {
-                filePath = null
-                println("[NewEventFragment] filePath: " + data?.data)
-                photoButton.text = "You decided to not select a photo."
-            }
-        }
-    }
-
-    private fun ContentResolver.getFileName(uri: Uri): String {
-        var name = ""
-        val cursor = query(uri, null, null, null, null)
-        cursor?.use {
-            it.moveToFirst()
-            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-        }
-        return name
-    }
-
-
 }
 

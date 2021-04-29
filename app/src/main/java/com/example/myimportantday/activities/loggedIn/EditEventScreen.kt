@@ -1,6 +1,8 @@
 package com.example.myimportantday.activities.loggedIn
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -12,9 +14,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.R
+import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.api.APIclient
 import com.example.myimportantday.api.SessionManager
-import com.example.myimportantday.activities.loggedOut.LoginScreen
 import com.example.myimportantday.models.EventResponse
 import com.example.myimportantday.tools.PopUpWindow
 import kotlinx.android.synthetic.main.activity_edit_event.*
@@ -38,9 +40,16 @@ class EditEventScreen : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
-    lateinit var eventPriority: String
+
     private lateinit var eventDate: String
     private lateinit var eventTime: String
+    private lateinit var eventDateAndTime: String
+    private lateinit var eventYear: String
+    private lateinit var eventMonth: String
+    private lateinit var eventDay: String
+    private lateinit var eventHour: String
+    private lateinit var eventMinute: String
+    lateinit var eventPriority: String
     private var filePath: Uri? = null
     private var picture: MultipartBody.Part? = null
     private var code: Int = 0
@@ -77,17 +86,12 @@ class EditEventScreen : AppCompatActivity() {
                 val inputFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
                 val date: LocalDate = LocalDate.parse(event?.date, inputFormatter)
                 val outputFormatterDate: DateTimeFormatter = DateTimeFormatter.ofPattern("yyy-MM-dd")
+                eventYear = date.year.toString()
+                eventMonth = date.monthValue.toString()
+                eventDay = date.dayOfMonth.toString()
                 val formattedDate: String = outputFormatterDate.format(date)
                 println("[EditEventScreen] INFO. Retrieved date from the event: $formattedDate")
                 eventDate = formattedDate
-
-                val calendar = Calendar.getInstance()
-                datePicker.minDate = calendar.timeInMillis
-                datePicker.init(date.year, date.monthValue-1, date.dayOfMonth) { _, year, month, day ->
-                    val selectedDate = "${year}-${month + 1}-${day}"
-                    eventDate = selectedDate
-                    println("[EditEventScreen] INFO. User selected eventDate: $eventDate")
-                }
 
                 // Time
                 val time: LocalTime = LocalTime.parse(event?.date,inputFormatter)
@@ -96,15 +100,8 @@ class EditEventScreen : AppCompatActivity() {
                 println("[EditEventScreen] INFO. Retrieved time from the event: $formattedTime")
                 eventTime = formattedTime
 
-
-                timePicker.setIs24HourView(true)
-                timePicker.hour = time.hour
-                timePicker.minute = time.minute
-                timePicker.setOnTimeChangedListener { _, hour, minute ->
-                    val selectedTime = "${hour}:${minute}"
-                    eventTime = selectedTime
-                    println("[EditEventScreen] INFO. User selected eventTime: $eventTime")
-                }
+                // Date and time
+                dateAndTimeButton.setOnClickListener { setDateAndTime() }
 
                 // Place
                 placeET.setText(event?.place)
@@ -124,6 +121,49 @@ class EditEventScreen : AppCompatActivity() {
 
         saveEdit.setOnClickListener{
             if (formDataThenPUT(eventID)) return@setOnClickListener
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setDateAndTime() {
+
+        Calendar.getInstance().apply {
+            this.set(Calendar.SECOND, 0)
+            this.set(Calendar.MILLISECOND, 0)
+            DatePickerDialog(
+                this@EditEventScreen,
+                0,
+                { _, year, month, day ->
+                    this.set(Calendar.YEAR, year)
+                    eventYear = year.toString()
+                    this.set(Calendar.MONTH, month)
+                    eventMonth = (month+1).toString()
+                    this.set(Calendar.DAY_OF_MONTH, day)
+                    eventDay = day.toString()
+                    eventDate = "${eventYear}-${eventMonth}-${eventDay}"
+                    println("[NewEventFragment] INFO. eventDate: $eventDate")
+                    TimePickerDialog(
+                        this@EditEventScreen,
+                        0,
+                        { _, hour, minute ->
+                            this.set(Calendar.HOUR_OF_DAY, hour)
+                            eventHour = hour.toString()
+                            this.set(Calendar.MINUTE, minute)
+                            eventMinute = minute.toString()
+                            eventTime = "${eventHour}:${eventMinute}"
+                            println("[NewEventFragment] INFO. eventTime: $eventTime")
+                            eventDateAndTime = eventDate.plus("T").plus(eventTime)
+                            println("[NewEventFragment] INFO. eventDateAndTime: $eventDateAndTime")
+                        },
+                        this.get(Calendar.HOUR_OF_DAY),
+                        this.get(Calendar.MINUTE),
+                        true
+                    ).show()
+                },
+                this.get(Calendar.YEAR),
+                this.get(Calendar.MONTH),
+                this.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
     }
 
@@ -161,6 +201,40 @@ class EditEventScreen : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 123) {
+            code = requestCode
+            if (data != null) {
+                filePath = data.data!!
+                println("[EditEventScreen] INFO. filePath: " + data.data)
+                photoButton.text = "A photo was selected."
+            }
+            else {
+                filePath = null
+                println("[EditEventScreen] INFO. filePath: " + data?.data)
+                photoButton.text = "No photo will be added."
+            }
+        }
+    }
+
+    private fun ContentResolver.getFileName(uri: Uri): String {
+        var name = ""
+        val cursor = query(uri, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        }
+        return name
+    }
+
+    private fun uploadImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 123)
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -263,40 +337,6 @@ class EditEventScreen : AppCompatActivity() {
                 }
             })
         return false
-    }
-
-    private fun ContentResolver.getFileName(uri: Uri): String {
-        var name = ""
-        val cursor = query(uri, null, null, null, null)
-        cursor?.use {
-            it.moveToFirst()
-            name = cursor.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-        }
-        return name
-    }
-
-    private fun uploadImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 123)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
-            code = requestCode
-            if (data != null) {
-                filePath = data.data!!
-                println("[EditEventScreen] INFO. filePath: " + data.data)
-                photoButton.text = "A photo was selected."
-            }
-            else {
-                filePath = null
-                println("[EditEventScreen] INFO. filePath: " + data?.data)
-                photoButton.text = "No photo will be added."
-            }
-        }
     }
 
 }
