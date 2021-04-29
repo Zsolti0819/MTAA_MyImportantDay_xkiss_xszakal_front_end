@@ -42,7 +42,6 @@ import java.util.*
 class NewEventFragment : Fragment() {
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
-
     private lateinit var eventDate: String
     private lateinit var eventTime: String
     private var eventDateAndTime: String = "Not set"
@@ -51,7 +50,6 @@ class NewEventFragment : Fragment() {
     private lateinit var eventDay: String
     private lateinit var eventHour: String
     private lateinit var eventMinute: String
-
     lateinit var eventPriority: String
     private var filePath: Uri? = null
     private var picture: MultipartBody.Part? = null

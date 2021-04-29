@@ -40,7 +40,6 @@ class EditEventScreen : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var apiClient: APIclient
-
     private lateinit var eventDate: String
     private lateinit var eventTime: String
     private lateinit var eventDateAndTime: String
