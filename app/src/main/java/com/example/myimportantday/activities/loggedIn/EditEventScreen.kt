@@ -107,7 +107,7 @@ class EditEventScreen : AppCompatActivity() {
                 placeET.setText(event?.place)
 
                 // Priority
-                showPrioritySpinner(response.body())
+                setPriority(response.body())
 
                 // Advanced
                 advancedET.setText(event?.advanced)
@@ -165,7 +165,7 @@ class EditEventScreen : AppCompatActivity() {
         }
     }
 
-    private fun showPrioritySpinner(event: EventResponse?) {
+    private fun setPriority(event: EventResponse?) {
         // Priority Spinner
         val priorityList = resources.getStringArray(R.array.priority_levels)
         val prioritySpinner = findViewById<Spinner>(R.id.prioritySP)
