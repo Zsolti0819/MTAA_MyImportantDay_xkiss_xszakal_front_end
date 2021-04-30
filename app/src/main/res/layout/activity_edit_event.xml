@@ -34,6 +34,7 @@
 
         <EditText
             android:id="@+id/subjectET"
+            android:maxLength="256"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
@@ -89,6 +90,7 @@
             android:id="@+id/placeET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:maxLength="256"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
@@ -135,6 +137,7 @@
 
         <EditText
             android:id="@+id/advancedET"
+            android:maxLength="512"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="32dp"
