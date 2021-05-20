@@ -1,9 +1,8 @@
 package com.example.myimportantday.activities.loggedIn.settings
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myimportantday.R
 import com.example.myimportantday.activities.loggedIn.MainSettingsScreen
 import com.example.myimportantday.api.APIclient
@@ -60,6 +59,7 @@ class UsernameChangeScreen : AppCompatActivity() {
                             intent.putExtra("popuptitle", "Error")
                             intent.putExtra("popuptext", message)
                             intent.putExtra("popupbtn", "OK")
+                            startActivity(intent)
                         }
                         response.code() == 401 -> {
                             println("[UsernameChangeScreen] INFO. Token ${sessionManager.fetchAuthToken()}. Response: " + response.toString())
